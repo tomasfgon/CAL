@@ -3,4 +3,6 @@ project(Projeto)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Projeto main.cpp)
+link_libraries(ws2_32 wsock32)
+
+add_executable(Projeto main.cpp cpp/connection.cpp cpp/graphviewer.cpp )

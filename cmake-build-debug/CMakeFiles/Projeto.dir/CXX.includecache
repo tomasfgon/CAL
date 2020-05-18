@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/main.cpp
+iostream
+-
+

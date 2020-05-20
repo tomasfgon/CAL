@@ -76,7 +76,7 @@ void Menu::mainMenu(int login) {
 
 void Menu::loginMenu(){
     int login;
-    this->login = login;
+
 
     cout << "\t\t Login\n\n" << endl;
     cout << "1 - Utilizador Municipal - UM" << endl;
@@ -93,6 +93,10 @@ void Menu::loginMenu(){
         cout << "Please choose valid option" << endl;
         loginMenu();
     }
+    if (verifyOption()){
+        this->login = login;
+    }
+
 }
 
 int Menu::getLogin() const {

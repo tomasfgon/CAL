@@ -4,10 +4,15 @@
 
 #include "Menu.h"
 
+Menu::Menu(){
+    loginMenu();
+    mainMenu();
+}
+
 bool Menu::verifyOption(){
     if (!cin.good())
     {
-        cout << "Por favor introduza um valor valido";
+        cout <<"Por favor introduza um valor valido" << endl<<endl;
         cin.clear();
         cin.ignore(INT_MAX, '\n');
         return false;
@@ -19,6 +24,7 @@ bool Menu::verifyOption(){
 void Menu::mainMenu(){
     int option = -1;
 
+    cout << endl << endl;
     cout << "\t\tMain Menu\n\n" << endl;
 
     cout << "1 - Add Collection Point" << endl;
@@ -65,6 +71,7 @@ void Menu::mainMenu(){
 
 void Menu::loginMenu(){
     int login;
+    this->login = login;
 
     cout << "\t\t Login\n\n" << endl;
     cout << "1 - Utilizador Municipal - UM" << endl;
@@ -76,5 +83,13 @@ void Menu::loginMenu(){
     if (!verifyOption()){
         loginMenu();
     }
+}
+
+int Menu::getLogin() const {
+    return login;
+}
+
+void Menu::setLogin(int login) {
+    Menu::login = login;
 }
 

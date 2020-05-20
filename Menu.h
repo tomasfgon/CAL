@@ -9,6 +9,14 @@
 using namespace std;
 
 class Menu {
+private:
+    int login;
+public:
+    Menu();
+
+    int getLogin() const;
+
+    void setLogin(int login);
 
 public:
     bool verifyOption();

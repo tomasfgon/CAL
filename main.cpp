@@ -1,6 +1,6 @@
 #include <iostream>
 #include "src/Graph.h"
-#include "Menu.h"
+#include "Menu.cpp"
 
 using namespace std;
 
@@ -12,8 +12,7 @@ int main()
 
     //TODO  loadMap();
 
-    //Menu menu;
-    //menu.loginMenu();
+    Menu menu;
 
 
     return 0;

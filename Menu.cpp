@@ -6,7 +6,11 @@
 
 Menu::Menu(){
     loginMenu();
-    mainMenu();
+    if(login == 1){menuUM();}
+
+    else if(login ==2){menuUE();}
+
+    else if(login==3){menuUP();}
 }
 
 bool Menu::verifyOption(){
@@ -20,8 +24,8 @@ bool Menu::verifyOption(){
     else
         return true;
 }
-
-void Menu::mainMenu(){
+/*
+void Menu::mainMenu(int login) {
     int option = -1;
 
     cout << endl << endl;
@@ -67,6 +71,7 @@ void Menu::mainMenu(){
     }
 
 }
+*/
 
 
 void Menu::loginMenu(){
@@ -83,6 +88,11 @@ void Menu::loginMenu(){
     if (!verifyOption()){
         loginMenu();
     }
+    if(login<1 || login>3){
+        cout << endl;
+        cout << "Please choose valid option" << endl;
+        loginMenu();
+    }
 }
 
 int Menu::getLogin() const {
@@ -93,3 +103,71 @@ void Menu::setLogin(int login) {
     Menu::login = login;
 }
 
+
+void Menu::menuUE() {
+    int option=-1;
+
+    cout << endl << endl;
+    cout << "\t\tUtilizador Empreendedor\n\n" << endl;
+
+    cout << "1 - Add Collection Point" << endl;
+    cout << "2 - Execute House Waste Collection" << endl;
+    cout << "3 - Exit\n\n" << endl;
+    cout << endl;
+    cout << "Choose option: ";
+
+
+    cin >> option;
+
+    if(!verifyOption()){
+        menuUE();
+    }
+    if(option <1 || option>3){
+        menuUE();
+    }
+
+}
+
+void Menu::menuUP() {int option=-1;
+
+    cout << endl << endl;
+    cout << "\t\tUtilizador Particular\n\n" << endl;
+
+    cout << "1 - Add Collection Point" << endl;
+    cout << "2 - Subscribe to House Waste Collection" << endl;
+    cout << "3 - View Closest Collection Points" << endl;
+    cout << "4 - Exit\n\n" << endl;
+    cout << endl;
+    cout << "Choose option: ";
+
+
+    cin >> option;
+
+    if(!verifyOption()){
+        menuUP();
+    }
+    if(option <1 || option>4){
+        menuUP();
+    }}
+
+void Menu::menuUM() {
+
+    int option;
+    cout << endl << endl;
+    cout << "\t\tUtilizador Municipal\n\n" << endl;
+
+    cout << "1 - Add Collection Point" << endl;
+    cout << "2 - Determine Truck Rout For Waste Collection - UM" << endl;
+    cout << "3 - Exit\n\n" << endl;
+    cout << endl;
+    cout << "Choose option: ";
+
+
+    cin >> option;
+
+    if(!verifyOption()){
+        menuUM();
+    }
+    if(option <1 || option>3){
+        menuUM();
+    }}

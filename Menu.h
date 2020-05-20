@@ -20,8 +20,11 @@ public:
 
 public:
     bool verifyOption();
-    void mainMenu();
+    //void mainMenu(int login);
     void loginMenu();
+    void menuUM();
+    void menuUP();
+    void menuUE();
 };
 
 

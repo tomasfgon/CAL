@@ -1,4 +1,4 @@
-# Install script for directory: /Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto
+# Install script for directory: /Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

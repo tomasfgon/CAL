@@ -41,7 +41,7 @@ private:
 
 std::ostream &operator<<(std::ostream &of, const VerticeInfo &ci) {
     of << "Vertice ID: " << ci.id;
-    of << "  , Coordenadas: " << ci.coordenadas.latitude << " | " << ci.coordenadas.longitude << endl;
+    of << "  , Coordenadas: " << ci.coordenadas.getX() << " | " << ci.coordenadas.getY() << endl;
     return of;
 }
 

@@ -161,7 +161,7 @@ void Menu::menuUM() {
     cout << "\t\tUtilizador Municipal\n\n" << endl;
 
     cout << "1 - Add Collection Point" << endl;
-    cout << "2 - Determine Truck Rout For Waste Collection - UM" << endl;
+    cout << "2 - Determine Truck Rout For Waste Collection" << endl;
     cout << "3 - Exit\n\n" << endl;
     cout << endl;
     cout << "Choose option: ";

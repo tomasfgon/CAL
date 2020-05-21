@@ -23,6 +23,14 @@ public:
         idNumber++;
     }
 
+    friend std::ostream & operator <<(std::ostream &of, const VerticeInfo &ci);
+
+    bool operator==(const VerticeInfo &ci);
+
+    bool operator!=(const VerticeInfo &ci);
+
+    VerticeInfo operator =(VerticeInfo verticeInfo);
+
 private:
 
     int id;
@@ -30,6 +38,25 @@ private:
 
 
 };
+
+std::ostream &operator<<(std::ostream &of, const VerticeInfo &ci) {
+    of << "Vertice ID: " << ci.id;
+    of << "  , Coordenadas: " << ci.coordenadas.latitude << " | " << ci.coordenadas.longitude << endl;
+    return of;
+}
+
+bool VerticeInfo::operator==(const VerticeInfo &ci) {
+    return id == ci.id;
+
+}
+
+bool VerticeInfo::operator!=(const VerticeInfo &ci) {
+    return id != ci.id;
+}
+
+VerticeInfo VerticeInfo::operator=(VerticeInfo verticeInfo2) {
+    return VerticeInfo(verticeInfo2.coordenadas);
+}
 
 
 //Dados Entrada
@@ -61,7 +88,7 @@ private:
 
 
 
-class PontoRecolhaDomiciliario : VerticeInfo{
+class PontoRecolhaDomiciliario : public VerticeInfo{
 
 public:
     PontoRecolhaDomiciliario(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
@@ -75,10 +102,10 @@ private:
 
 
 
-class PontoRecolha : VerticeInfo {
+class PontoRecolha : public VerticeInfo {
 public:
     PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(coordenadas),
-                                                                               tipoLixo(tipoLixo) {}
+                                                                         tipoLixo(tipoLixo) {}
 
 private:
 
@@ -87,13 +114,13 @@ private:
     vector<double> capacidadesMax;
 };
 
-class PontoPartida : VerticeInfo {
+class PontoPartida : public VerticeInfo {
 public:
     PontoPartida(Coordenadas &coordenadas) : VerticeInfo(coordenadas) {}
 
 };
 
-class CentroReciclagem : VerticeInfo {
+class CentroReciclagem : public VerticeInfo {
 public:
     CentroReciclagem(Coordenadas &coordenadas, TipoLixo tipoLixo) : VerticeInfo(coordenadas), tipoLixo(tipoLixo) {}
 

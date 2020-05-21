@@ -11,6 +11,7 @@
 
 class Coordenadas {
 
-    double longitude;
+public:
     double latitude;
+    double longitude;
 };

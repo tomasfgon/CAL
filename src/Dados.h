@@ -86,7 +86,7 @@ private:
 
 };
 
-
+static double taxaViavel = 0.5;
 
 class PontoRecolhaDomiciliario : public VerticeInfo{
 
@@ -94,10 +94,15 @@ public:
     PontoRecolhaDomiciliario(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
             coordenadas), tipoLixo(tipoLixo) {}
 
+    double getTaxaOcupacao() const {
+        return taxaOcupacao;
+    }
 private:
 
     vector<TipoLixo>  tipoLixo;
-    vector<double> pesos;
+    double taxaOcupacao;
+    double capacidadeMax;
+
 };
 
 
@@ -106,19 +111,29 @@ class PontoRecolha : public VerticeInfo {
 public:
     PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(coordenadas),
                                                                          tipoLixo(tipoLixo) {}
+    const vector<double> &getTaxasOcupacao() const {
+        return taxasOcupacao;
+    }
 
 private:
-
     vector<TipoLixo>  tipoLixo;
     vector<double> taxasOcupacao;
     vector<double> capacidadesMax;
+
 };
+
+
+
 
 class PontoPartida : public VerticeInfo {
 public:
     PontoPartida(Coordenadas &coordenadas) : VerticeInfo(coordenadas) {}
 
 };
+
+
+
+
 
 class CentroReciclagem : public VerticeInfo {
 public:
@@ -128,6 +143,9 @@ private:
 
     TipoLixo tipoLixo;
 };
+
+
+
 
 class Camiao {
 public:

@@ -7,7 +7,6 @@
 #ifndef PROJETO_COORDENADAS_H
 #define PROJETO_COORDENADAS_H
 
-#endif //PROJETO_COORDENADAS_H
 
 class Coordenadas {
 private:
@@ -40,3 +39,5 @@ public:
 
 
 };
+
+#endif //PROJETO_COORDENADAS_H

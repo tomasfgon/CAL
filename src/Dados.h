@@ -5,7 +5,7 @@
 #ifndef PROJETO_TRANSPORTEUE_H
 #define PROJETO_TRANSPORTEUE_H
 
-#endif //PROJETO_TRANSPORTEUE_H
+
 
 #include <vector>
 #include "Coordenadas.h"
@@ -115,6 +115,14 @@ public:
         return taxasOcupacao;
     }
 
+    const vector<double> &getCapacidadesMax() const {
+        return capacidadesMax;
+    }
+
+    const vector<TipoLixo> &getTipoLixo() const {
+        return tipoLixo;
+    }
+
 private:
     vector<TipoLixo>  tipoLixo;
     vector<double> taxasOcupacao;
@@ -145,19 +153,18 @@ private:
 };
 
 
-
+static double capcidadeMaxCamiao = 500; //valor possivel de ser mudado para fazer os testes
 
 class Camiao {
 public:
     Camiao(TipoLixo tipoLixo) : tipoLixo(tipoLixo) {}
 
 private:
-
     TipoLixo tipoLixo;
-    double capacidadeAtual;
-    double capcidadeMax;
+    double capacidadeAtual = 0;
 
 };
+
 
 
 //Dados Saida
@@ -170,3 +177,5 @@ private:
 
     vector<Edge<VerticeInfo>> arestasIdeais;
 };
+
+#endif //PROJETO_TRANSPORTEUE_H

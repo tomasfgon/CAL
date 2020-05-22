@@ -7,6 +7,7 @@
 
 
 #include "Dados.h"
+#include <utility>
 
 class UseCases {
 public:
@@ -21,9 +22,13 @@ public:
 
 private:
 
-    vector<VerticeInfo> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);
+    vector<PontoRecolha> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);
 
-    vector<Camiao> calcularCamioesNecessarios(vector<VerticeInfo> pontosRecolha);
+    vector<pair<double,TipoLixo>> calcularLixoTotalPorTipo(vector<PontoRecolha> pontosRecolha);
+
+    vector<Camiao> calcularCamioesNecessarios(vector<PontoRecolha> pontosRecolha);
+
+    vector<Edge<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha);
 };
 
 

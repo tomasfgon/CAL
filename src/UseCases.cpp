@@ -3,6 +3,7 @@
 //
 
 #include "UseCases.h"
+#include <math.h>
 
 bool UseCases::addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph) {
 
@@ -18,8 +19,6 @@ return false;
 }
 
 bool UseCases::checkConectividade(Graph<VerticeInfo> graph) { //usando dfs
-
-
 
     vector<VerticeInfo> verticesOrdenado = graph.dfs();
     vector<Vertex< VerticeInfo> *> verticesTotais = graph.getVertexSet();
@@ -49,6 +48,8 @@ bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomicil
     return false;
 
 }
+
+
 template<typename Base, typename T>
 inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
@@ -57,17 +58,21 @@ inline bool instanceof(const T*) {
 Edge<VerticeInfo> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
 
     //1º Detetar todos os contentores que estao acima da taxa viável
-    vector<VerticeInfo> pontosParaRecolher = getPontosAcimaTaxaViavel(graph);
+    vector<PontoRecolha> pontosParaRecolher = getPontosAcimaTaxaViavel(graph);
 
     //2º Minimizar o número de camiões a utilizar
+    vector<Camiao> camioesNecessarios = calcularCamioesNecessarios(pontosParaRecolher);
+
+    //3º Minimizar a distancia total percorrida
+
 
 
     return Edge<VerticeInfo>(nullptr, nullptr, 0);
 }
 
 
-vector<VerticeInfo> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph) {
-    vector<VerticeInfo> pontosParaRecolher; //pontos a recolher
+vector<PontoRecolha> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph) {
+    vector<PontoRecolha> pontosParaRecolher; //pontos a recolher
     vector<Vertex<VerticeInfo>*> vertices = graph.getVertexSet();
 
     for(int i = 0; i < vertices.size(); i++){
@@ -84,18 +89,103 @@ vector<VerticeInfo> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph)
                     pontosParaRecolher.push_back(*pontoRecolha);
             }
         }
-        else if(instanceof<PontoRecolhaDomiciliario>(infoP)){
-            PontoRecolhaDomiciliario* pontoRecolhaDomiciliario = static_cast<PontoRecolhaDomiciliario *>(dynamic_cast<VerticeInfo *>(infoP));
-            double taxa = pontoRecolhaDomiciliario->getTaxaOcupacao();
-            if(taxa > taxaViavel)
-                pontosParaRecolher.push_back(*pontoRecolhaDomiciliario);
-
-        }
     }
 
     return pontosParaRecolher;
 }
 
-vector<Camiao> UseCases::calcularCamioesNecessarios(vector<VerticeInfo>) {
+
+vector<Camiao> UseCases::calcularCamioesNecessarios(vector<PontoRecolha> pontosRecolha) {
+
+    vector<Camiao> camioes;
+
+    vector<pair<double,TipoLixo>> lixoPorTipo = calcularLixoTotalPorTipo(pontosRecolha);
+
+    //admitindo que todos os camioes teem a mesma capacidade
+    for(int i = 0; i < lixoPorTipo.size(); i++){
+
+        int Ncamiao = ceil(lixoPorTipo.at(i).first / capcidadeMaxCamiao);
+
+        for(int j = 0; j < Ncamiao; j++){
+            Camiao c(lixoPorTipo.at(i).second);
+            camioes.push_back(c);
+        }
+
+    }
+
     return vector<Camiao>();
+}
+
+
+
+vector<pair<double,TipoLixo>> UseCases::calcularLixoTotalPorTipo(vector<PontoRecolha> pontosRecolha) {
+
+    vector<pair<double,TipoLixo>> lixoPorTipo;
+
+    double lixoPapel = 0;
+    double lixoPlastico = 0;
+    double lixoVidro = 0;
+    double lixoMetal = 0;
+    double lixoOrganico = 0;
+    double lixoNaoReciclavel = 0;
+
+
+    for(int i = 0; i < pontosRecolha.size(); i++){ // para cada ponto de recolha
+
+
+        vector<double> taxas = pontosRecolha.at(i).getTaxasOcupacao();
+        vector<double> capacidadeMax = pontosRecolha.at(i).getCapacidadesMax();
+        vector<TipoLixo> tipos = pontosRecolha.at(i).getTipoLixo();
+
+
+
+        for(int j = 0; j < taxas.size(); j++){
+
+            TipoLixo tipo = tipos.at(j);
+            switch (tipo){
+                case papel:
+                    lixoPapel+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+
+                case plastico:
+                        lixoPlastico+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+
+                case vidro:
+                    lixoVidro+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+
+                case metal:
+                    lixoMetal+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+                case organico:
+                    lixoOrganico+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+
+                case naoReciclavel:
+                    lixoNaoReciclavel+= taxas.at(j) * capacidadeMax.at(j);
+                    break;
+            }
+
+
+        }
+
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPapel,papel));
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPlastico,plastico));
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoVidro,vidro));
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoMetal,metal));
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoOrganico,organico));
+        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoNaoReciclavel,naoReciclavel));
+
+
+
+
+    }
+    return lixoPorTipo;
+}
+
+vector<Edge<VerticeInfo>>
+UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
+                                  vector<PontoRecolha> pontosRecolha) {
+    return vector<Edge<VerticeInfo>>();
 }

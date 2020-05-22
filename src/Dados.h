@@ -23,6 +23,10 @@ public:
         idNumber++;
     }
 
+    VerticeInfo(int id, Coordenadas &coordenadas) : coordenadas(coordenadas), id(id) {
+    }
+
+
     friend std::ostream & operator <<(std::ostream &of, const VerticeInfo &ci);
 
     bool operator==(const VerticeInfo &ci);
@@ -35,6 +39,10 @@ private:
 
     int id;
     Coordenadas coordenadas;
+public:
+    const Coordenadas &getCoordenadas() const;
+
+    void setCoordenadas(const Coordenadas &coordenadas);
 
 
 };
@@ -56,6 +64,14 @@ bool VerticeInfo::operator!=(const VerticeInfo &ci) {
 
 VerticeInfo VerticeInfo::operator=(VerticeInfo verticeInfo2) {
     return VerticeInfo(verticeInfo2.coordenadas);
+}
+
+const Coordenadas &VerticeInfo::getCoordenadas() const {
+    return coordenadas;
+}
+
+void VerticeInfo::setCoordenadas(const Coordenadas &coordenadas) {
+    VerticeInfo::coordenadas = coordenadas;
 }
 
 
@@ -86,7 +102,7 @@ private:
 
 };
 
-static double taxaViavel = 0.5;
+
 
 class PontoRecolhaDomiciliario : public VerticeInfo{
 
@@ -94,26 +110,18 @@ public:
     PontoRecolhaDomiciliario(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
             coordenadas), tipoLixo(tipoLixo) {}
 
-    double getTaxaOcupacao() const {
-        return taxaOcupacao;
-    }
 private:
 
     vector<TipoLixo>  tipoLixo;
-    double taxaOcupacao;
-    double capacidadeMax;
-
+    vector<double> pesos;
 };
 
-
+static double taxaViavel = 0.5;
 
 class PontoRecolha : public VerticeInfo {
 public:
     PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(coordenadas),
                                                                          tipoLixo(tipoLixo) {}
-    const vector<double> &getTaxasOcupacao() const {
-        return taxasOcupacao;
-    }
 
     const vector<double> &getCapacidadesMax() const {
         return capacidadesMax;
@@ -123,25 +131,22 @@ public:
         return tipoLixo;
     }
 
+    const vector<double> &getTaxasOcupacao() const {
+        return taxasOcupacao;
+    }
+
 private:
+
     vector<TipoLixo>  tipoLixo;
     vector<double> taxasOcupacao;
     vector<double> capacidadesMax;
-
 };
-
-
-
 
 class PontoPartida : public VerticeInfo {
 public:
     PontoPartida(Coordenadas &coordenadas) : VerticeInfo(coordenadas) {}
 
 };
-
-
-
-
 
 class CentroReciclagem : public VerticeInfo {
 public:
@@ -152,8 +157,8 @@ private:
     TipoLixo tipoLixo;
 };
 
-
 static double capcidadeMaxCamiao = 500; //valor possivel de ser mudado para fazer os testes
+
 
 class Camiao {
 public:

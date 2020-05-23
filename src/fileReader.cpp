@@ -31,9 +31,9 @@ void FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
         getline(file, line);
 
         sep = line.find(',');
+        //cout << line.substr(1,sep) << endl;
         id = stoi(line.substr(1,sep));
         line.erase(0,sep+1);
-        //cout << "id: " << id << endl;
 
 
         sep = line.find(',');
@@ -66,7 +66,7 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 
     getline(file, line);
-    cout << "number: " << line << endl;
+    //cout << "number: " << line << endl;
     numberEdges = stoi(line);
 
     for(int i=0;i<numberEdges;i++){
@@ -75,11 +75,11 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
         getline(file, line);
         sep = line.find(",");
         id1 = stoi(line.substr(1, sep));
-        cout << "id1: " << id1 << endl;
+        //cout << "id1: " << id1 << endl;
         line.erase(0,sep+1);
         sep = line.find(')');
         id2 = stoi(line.substr(0, sep));
-        cout << "id2: " << id2 << endl << endl;
+        //cout << "id2: " << id2 << endl << endl;
 
 
         Coordenadas coordenadas(0,0);
@@ -101,7 +101,7 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 
         double distance = sqrt(pow(x2-x1,2) + pow(y2-y1,2));
-        cout << "distance: "<<distance << endl;
+        //cout << "distance: "<<distance << endl;
 
 
 

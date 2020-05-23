@@ -14,14 +14,14 @@ int main()
 
     //TODO  loadMap();
 
-/*
-    Graph<VerticeInfo> graph;
 
+    Graph<VerticeInfo> graph;
     FileReader fileReader;
+
 
     fileReader.readNodes_simples(graph,"maps/PortugalMaps/Porto/nodes_x_y_porto.txt");
     fileReader.readEdges_simples(graph,"maps/PortugalMaps/Porto/edges_porto.txt");
-*/
+
 
     Menu menu;
 

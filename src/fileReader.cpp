@@ -66,8 +66,8 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 
     getline(file, line);
-    //cout << "number: " << line << endl;
-    numberEdges = stoi(line);
+    cout << "number: " << line << endl;
+    //numberEdges = stoi(line);
 
     for(int i=0;i<numberEdges;i++){
         int id1,id2;
@@ -112,4 +112,78 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
     file.close();
 
+}
+
+vector<int> FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
+
+    Vertex<VerticeInfo> *vertex;
+    int numberTags, numberNodes;
+
+    string amenity;
+    ifstream file;
+    string line;
+    string filename = nome;
+
+    file.open(filename);
+
+    getline(file, line);
+    cout << "number tags: "<<line << endl;
+
+    numberTags = stoi(line);
+
+    for(int i=0;i<numberTags;i++){
+        getline(file, amenity);
+        if(amenity.substr(0,8)=="amenity="){
+            amenity.erase(0,8);
+            cout << "Amenity: " << amenity << endl;
+
+
+            getline(file, line);
+
+            numberNodes = stoi(line);
+
+            cout << "Number nodes: " << numberNodes << endl<<endl;
+
+            for(int i=0;i<numberNodes;i++){
+                getline(file, line);
+                cout << line << endl;
+                Coordenadas coordenadas(0,0);
+                VerticeInfo verticeInfo(stoi(line),coordenadas);
+                vertex = graph.findVertex(verticeInfo);
+
+                if(amenity=="waste_basket"){
+                    //PontoRecolhaDomiciliaria
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    PontoRecolhaDomiciliario(vertex->getInfo().getCoordenadas(), tipos);
+                }
+                else if(amenity=="recycling"){
+                    //PontoRecolha
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    PontoRecolha(vertex->getInfo().getCoordenadas(), tipos);
+
+                }
+                else if(amenity == "waste_disposal"){
+                    //CentroReciclagem
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    CentroReciclagem(vertex->getInfo().getCoordenadas(), tipos[0]);
+                }
+                else if(amenity == "waste_transfer_station"){
+                    //PontoPartida
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    PontoPartida(vertex->getInfo().getCoordenadas());
+                }
+
+            }
+        }
+
+
+
+
+
+
+    }
 }

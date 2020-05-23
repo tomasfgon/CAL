@@ -23,7 +23,10 @@ public:
     //template<class T>
     void readEdges_simples(Graph<VerticeInfo> &graph, string nome);
 
+    vector<int> readTags(Graph<VerticeInfo> &graph, string nome);
 
+
+    vector<TipoLixo> generateTiposLixo();
 };
 
 

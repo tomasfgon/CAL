@@ -66,7 +66,7 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 
     getline(file, line);
-    cout << "number: " << line << endl;
+    //cout << "number: " << line << endl;
     //numberEdges = stoi(line);
 
     for(int i=0;i<numberEdges;i++){
@@ -127,7 +127,7 @@ vector<int> FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
     file.open(filename);
 
     getline(file, line);
-    cout << "number tags: "<<line << endl;
+    //cout << "number tags: "<<line << endl;
 
     numberTags = stoi(line);
 
@@ -135,18 +135,18 @@ vector<int> FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         getline(file, amenity);
         if(amenity.substr(0,8)=="amenity="){
             amenity.erase(0,8);
-            cout << "Amenity: " << amenity << endl;
+            //cout << "Amenity: " << amenity << endl;
 
 
             getline(file, line);
 
             numberNodes = stoi(line);
 
-            cout << "Number nodes: " << numberNodes << endl<<endl;
+            //cout << "Number nodes: " << numberNodes << endl<<endl;
 
             for(int i=0;i<numberNodes;i++){
                 getline(file, line);
-                cout << line << endl;
+                //cout << line << endl;
                 Coordenadas coordenadas(0,0);
                 VerticeInfo verticeInfo(stoi(line),coordenadas);
                 vertex = graph.findVertex(verticeInfo);
@@ -179,11 +179,5 @@ vector<int> FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
             }
         }
-
-
-
-
-
-
     }
 }

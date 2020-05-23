@@ -1,7 +1,7 @@
 #include <iostream>
 #include "src/Graph.h"
 #include "Menu.cpp"
-#include "src/fileReader.h"
+#include "src/fileReader.cpp"
 
 using namespace std;
 
@@ -13,12 +13,12 @@ int main()
             "Miguel Neves\nTomás Freitas\nAbel Tiago\n\n\n";
 
     //TODO  loadMap();
-/*
+
     Graph<VerticeInfo> graph;
     FileReader fileReader;
-    fileReader.readNodes_simples(graph,"maps/GridGraphs/16x16");
-    fileReader.readEdges_simples(graph,"maps/GridGraphs/16x16");
-*/
+    fileReader.readNodes_simples(graph,"maps/GridGraphs/16x16/nodes.txt");
+    fileReader.readEdges_simples(graph,"maps/GridGraphs/16x16/edges.txt");
+
 
     Menu menu;
 

@@ -4,6 +4,7 @@
 
 #include "UseCases.h"
 #include <math.h>
+#include <float.h>
 
 bool UseCases::addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph) {
 
@@ -186,6 +187,79 @@ vector<pair<double,TipoLixo>> UseCases::calcularLixoTotalPorTipo(vector<PontoRec
 
 vector<Edge<VerticeInfo>>
 UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
-                                  vector<PontoRecolha> pontosRecolha) {
+                                  vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem) {
+
+    //para cada tipo de lixo
+    vector<Camiao> camiaoDoMsmTipo;
+    int tipoLixoAtual = 0;
+    for (int i = 0; i < nTiposLixo; i++){
+
+        for(int j = 0; camioesNecessarios.size(); j++){
+            if(camioesNecessarios.at(j).getTipoLixo() == tipoLixoAtual){
+                camiaoDoMsmTipo.push_back(camioesNecessarios.at(j));
+            }
+        }
+
+
+        int nCamiaoMsmTipo = camiaoDoMsmTipo.size();
+        //obter o ponto de recolha mais proximo desde o pontoPartida
+        VerticeInfo oldPonto = pontoPartida;
+
+        // obter os lixo mais perto uns dos outros
+        vector<VerticeInfo> pontosRecolhaMaisProxOrdenados;
+        obterPontosRecolhaMaisProximo(pontosRecolha,oldPonto,tipoLixoAtual,graph,pontosRecolhaMaisProxOrdenados);
+
+        //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
+
+        tipoLixoAtual++; //alterar para o proximo tipo
+        camiaoDoMsmTipo.clear();
+    }
+
+
     return vector<Edge<VerticeInfo>>();
+}
+
+
+void UseCases::obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph , vector<VerticeInfo> &listToReturn) {
+
+    double minDist = DBL_MAX;
+    Vertex<VerticeInfo>* bestVertex;
+    for(int j = 0; j < pontosRecolha.size(); j++){
+        for(int k = 0; k < pontosRecolha.at(j).getTipoLixo().size(); k++){
+            if(pontosRecolha.at(j).getTipoLixo().at(k) == tipoLixoAtual){ //apenas para os pontos de recolha do tipoLixoAtual
+
+                graph.dijkstraShortestPath(oldPonto);
+                vector<VerticeInfo> shortestPath = graph.getPath(oldPonto,pontosRecolha.at(j));
+
+                double dist = 0;
+
+                for(VerticeInfo verticeInfo : shortestPath){
+                    //ir guardando a soma das distancias
+                    Vertex<VerticeInfo>* vertex = graph.findVertex(verticeInfo);
+                    for(Edge<VerticeInfo> edge : vertex->getAdj()){
+                        if(edge.getDest() == vertex->getPath()){
+                            dist+= edge.getWeight();
+                        }
+                    }
+
+                    VerticeInfo* verticeInfoptr = &verticeInfo;
+                    if(instanceof<PontoRecolha>(verticeInfoptr) && find(listToReturn.begin(), listToReturn.end(), verticeInfo) != listToReturn.end()){ //encontrou o lixo mais perto e ainda nao foi adicionado a lista a retornar
+
+                        if(dist < minDist){
+                            minDist = dist;
+                            *bestVertex = *vertex;
+                        }
+                        break;  // ir para outro ponto de recolha
+                    }
+                }
+
+            }
+        }
+        minDist = DBL_MAX;
+    }
+
+    listToReturn.push_back(bestVertex->getInfo());
+    oldPonto = bestVertex->getInfo();
+    if(pontosRecolha.size() > listToReturn.size())
+        obterPontosRecolhaMaisProximo(pontosRecolha, oldPonto, tipoLixoAtual, graph, listToReturn);
 }

@@ -6,17 +6,22 @@
 #define PROJETO_MENU_H
 
 #include <iostream>
+#include "src/Dados.h"
+
 using namespace std;
 
 class Menu {
 private:
     int login;
+    Graph<VerticeInfo> graph;
 public:
     Menu();
 
     int getLogin() const;
 
     void setLogin(int login);
+
+    const Graph<VerticeInfo> &getGraph() const;
 
 public:
     bool verifyOption();

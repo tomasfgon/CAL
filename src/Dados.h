@@ -2,8 +2,7 @@
 // Created by neves on 20/05/2020.
 //
 
-#ifndef PROJETO_TRANSPORTEUE_H
-#define PROJETO_TRANSPORTEUE_H
+#pragma once
 
 
 
@@ -164,6 +163,10 @@ class Camiao {
 public:
     Camiao(TipoLixo tipoLixo) : tipoLixo(tipoLixo) {}
 
+    TipoLixo getTipoLixo() const {
+        return tipoLixo;
+    }
+
 private:
     TipoLixo tipoLixo;
     double capacidadeAtual = 0;
@@ -183,4 +186,3 @@ private:
     vector<Edge<VerticeInfo>> arestasIdeais;
 };
 
-#endif //PROJETO_TRANSPORTEUE_H

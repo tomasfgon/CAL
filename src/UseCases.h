@@ -2,8 +2,7 @@
 // Created by neves on 21/05/2020.
 //
 
-#ifndef PROJETO_USECASES_H
-#define PROJETO_USECASES_H
+#pragma once
 
 
 #include "Dados.h"
@@ -28,8 +27,9 @@ private:
 
     vector<Camiao> calcularCamioesNecessarios(vector<PontoRecolha> pontosRecolha);
 
-    vector<Edge<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha);
+    vector<Edge<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem);
+
+    void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
 };
 
 
-#endif //PROJETO_USECASES_H

@@ -3,6 +3,7 @@
 //
 
 #include "Menu.h"
+#include "src/UseCases.h"
 
 Menu::Menu(){
     loginMenu();
@@ -78,6 +79,7 @@ void Menu::loginMenu(){
     int login;
 
 
+
     cout << "\t\t Login\n\n" << endl;
     cout << "1 - Utilizador Municipal - UM" << endl;
     cout << "2 - Utilizador Empreendedor - UE" << endl;
@@ -130,6 +132,11 @@ void Menu::menuUE() {
         menuUE();
     }
 
+    UseCases useCases;
+    if(option == 1){
+      //  useCases.checkConectividade()
+    }
+
 
 }
 
@@ -176,3 +183,9 @@ void Menu::menuUM() {
     if(option <1 || option>3){
         menuUM();
     }}
+
+const Graph<VerticeInfo> &Menu::getGraph() const {
+    return graph;
+}
+
+

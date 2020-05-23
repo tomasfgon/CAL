@@ -42,6 +42,7 @@ public:
     double getDist() const;
     Vertex *getPath() const;
     vector<Edge<T>> getAdj() const;
+    bool removeEdgeTo(Vertex<T> *d);
     friend class Graph<T>;
     friend class MutablePriorityQueue<Vertex<T>>;
 };
@@ -68,6 +69,21 @@ template<class T>
 vector<Edge<T>> Vertex<T>::getAdj() const {
     return adj;
 }
+
+template <class T>
+bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
+    typename vector<Edge<T> >::iterator it= adj.begin();
+    typename vector<Edge<T> >::iterator ite= adj.end();
+    while (it!=ite) {
+        if (it->dest == d) {
+            adj.erase(it);
+            return true;
+        }
+        else it++;
+    }
+    return false;
+}
+
 
 
 
@@ -106,6 +122,10 @@ public:
     friend class Graph<T>;
     friend class Vertex<T>;
 
+    Vertex<T> *getOrig() const;
+
+    Vertex<T> *getDest() const;
+
     // Fp07
     double getWeight() const;
 };
@@ -116,6 +136,16 @@ Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w)
 template <class T>
 double Edge<T>::getWeight() const {
     return weight;
+}
+
+template<class T>
+Vertex<T> *Edge<T>::getOrig() const {
+    return orig;
+}
+
+template<class T>
+Vertex<T> *Edge<T>::getDest() const {
+    return dest;
 }
 
 

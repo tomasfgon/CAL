@@ -13,7 +13,7 @@ using namespace std;
 class Menu {
 private:
     int login;
-    Graph<VerticeInfo> graph;
+
 public:
     Menu();
 
@@ -21,7 +21,7 @@ public:
 
     void setLogin(int login);
 
-    const Graph<VerticeInfo> &getGraph() const;
+
 
 public:
     bool verifyOption();

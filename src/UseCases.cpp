@@ -56,7 +56,7 @@ inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
 }
 
-Edge<VerticeInfo> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
+vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
 
     //1º Detetar todos os contentores que estao acima da taxa viável
     vector<PontoRecolha> pontosParaRecolher = getPontosAcimaTaxaViavel(graph);
@@ -65,10 +65,10 @@ Edge<VerticeInfo> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, Cen
     vector<Camiao> camioesNecessarios = calcularCamioesNecessarios(pontosParaRecolher);
 
     //3º Minimizar a distancia total percorrida
+    vector<Edge<VerticeInfo>> edgesOrdered = minimizarDistPercorrida(graph,camioesNecessarios,pontosParaRecolher,pontoPartida,centroReciclagem);
 
 
-
-    return Edge<VerticeInfo>(nullptr, nullptr, 0);
+    return edgesOrdered;
 }
 
 
@@ -189,6 +189,8 @@ vector<Edge<VerticeInfo>>
 UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
                                   vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem) {
 
+    vector<Edge<VerticeInfo>> edges;
+
     //para cada tipo de lixo
     vector<Camiao> camiaoDoMsmTipo;
     int tipoLixoAtual = 0;
@@ -211,12 +213,28 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
 
         //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
 
+        for(int j = 0; j < pontosRecolhaMaisProxOrdenados.size() - 1; j++) {
+            VerticeInfo verticeInfo = pontosRecolhaMaisProxOrdenados.at(j);
+            Vertex<VerticeInfo>* vertex = graph.findVertex(verticeInfo);
+            VerticeInfo verticeInfoNext = pontosRecolhaMaisProxOrdenados.at(j+1);
+            Vertex<VerticeInfo>* vertexNext = graph.findVertex(verticeInfo);
+
+            for(Edge<VerticeInfo> edge : vertex->getAdj()){
+                if(edge.getDest() == vertexNext){
+
+                    edges.push_back(edge);
+                }
+            }
+        }
+
+
+
         tipoLixoAtual++; //alterar para o proximo tipo
         camiaoDoMsmTipo.clear();
     }
 
 
-    return vector<Edge<VerticeInfo>>();
+    return edges;
 }
 
 

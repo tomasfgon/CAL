@@ -132,7 +132,7 @@ void Menu::menuUE() {
         menuUE();
     }
 
-    UseCases useCases;
+   // UseCases useCases;
     if(option == 1){
       //  useCases.checkConectividade()
     }
@@ -184,8 +184,5 @@ void Menu::menuUM() {
         menuUM();
     }}
 
-const Graph<VerticeInfo> &Menu::getGraph() const {
-    return graph;
-}
 
 

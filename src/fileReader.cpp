@@ -187,6 +187,7 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
+
     Vertex<VerticeInfo> *vertex;
     int numberTags, numberNodes;
 
@@ -250,7 +251,13 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         //PontoRecolhaDomiciliaria
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
-                        PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, vertex->getInfo()->getId());
+
+                        PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, vertex->getInfo()->getId());
+
+                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+                        vertex->setInfo(p);
+
+
                     }
                     else if(TagType == "recycling"){
                         //PontoRecolha
@@ -259,21 +266,35 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         vector<double> capMax;
                         for(int j = 0; j < tipos.size(); j++)
                             capMax.push_back(500);
+
                         PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tipos,
                                                                       capMax, vertex->getInfo()->getId());
 
                         vertex->setInfo(pontoRecolha);
+
 
                     }
                     else if(TagType == "waste_disposal"){
                         //CentroReciclagem
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
-                        CentroReciclagem(vertex->getInfo()->getCoordenadas(), tipos[0], vertex->getInfo()->getId());
+
+                        CentroReciclagem *p = new CentroReciclagem(vertex->getInfo()->getCoordenadas(), tipos[0], vertex->getInfo()->getId());
+
+
+                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+                        vertex->setInfo(p);
+
                     }
                     else if(TagType == "waste_transfer_station"){
                         //PontoPartida
-                        PontoPartida(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
+                        PontoPartida *p = new PontoPartida(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
+
+
+                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+                        vertex->setInfo(p);
+
+
                     }
 
                 }

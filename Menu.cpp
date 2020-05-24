@@ -115,11 +115,12 @@ void Menu::menuUE() {
     int option=-1;
 
     cout << endl << endl;
-    cout << "\t\tUtilizador Empreendedor\n\n" << endl;
+    cout << "\n\t\tUtilizador Empreendedor\n\n" << endl;
 
     cout << "1 - Add Collection Point" << endl;
     cout << "2 - Execute House Waste Collection" << endl;
-    cout << "3 - Exit\n\n" << endl;
+    cout << "3 - Imprimir todos os lixos da rua" << endl;
+    cout << "4 - Exit\n\n" << endl;
     cout << endl;
     cout << "Choose option: ";
 
@@ -129,13 +130,14 @@ void Menu::menuUE() {
     if(!verifyOption()){
         menuUE();
     }
-    if(option <1 || option>3){
+    if(option <1 || option>4){
         menuUE();
     }
 
-    UseCases useCases;
-    if(option == 1){
-        //criar ponto recolha exemplo
+    if(option != 4){
+        UseCases useCases;
+        if(option == 1){
+/*        //criar ponto recolha exemplo
         vector<Vertex<VerticeInfo>*> vertexSet = graph.getVertexSet();
         Vertex<VerticeInfo> *vertex = vertexSet.at(0);
         Coordenadas coordenadas = vertex->getInfo()->getCoordenadas();
@@ -145,23 +147,71 @@ void Menu::menuUE() {
         vector<double> capMax;
         capMax.push_back(100);
         capMax.push_back(333);
-        PontoRecolha *pontoRecolha = new PontoRecolha(coordenadas, tiposLixo, capMax, vertex->getInfo()->getId());
+        PontoRecolha *pontoRecolha = new PontoRecolha(coordenadas, tiposLixo, capMax, vertex->getInfo()->getId());*/
 
 
-        useCases.addPontoRecolha(*pontoRecolha, graph);
+            //Ler ponto de recolha
+            cout << "Indique o id do vertice que pertende adicionar como ponto de recolha" << endl;
+            int readId;
+            cin >> readId;
+            cout << "Indique o numero de tipos de lixo que contem:" << endl;
+            int numTipo;
+            cin >> numTipo;
+            cout << "Usando os numeros respetivos aos tipos insira um numero de cada vez seguido de enter" << endl;
+            vector<TipoLixo> tiposLixo;
+            for(int i = 0; i < numTipo; i++){
 
-        //print
-        vector<PontoRecolha> pontosRecolha = useCases.getAllPontosRecolha(graph);
+                cout << "papel = 0 ,plastico = 1,vidro = 2 ,metal = 3,organico = 4 ,naoReciclavel = 5" << endl;
+                int tipo;
+                cin >> tipo;
+                tiposLixo.push_back(TipoLixo(tipo));
+            }
+            cout << "Insira agora as capacidades maximas de cada tipo de lixo" << endl;
+            vector<double> capMaxes;
+            for(int i = 0; i < numTipo; i++){
 
-        for(PontoRecolha pontoRecolhaAtual : pontosRecolha){
-            cout << "Ponto Recolha: " << endl;
-            cout << "Coordenada: " << pontoRecolhaAtual.getCoordenadas().getX() << ", " << pontoRecolhaAtual.getCoordenadas().getY() << endl;
-            for(TipoLixo tipoLixo : pontoRecolhaAtual.getTipoLixo())
-                cout << "TipoLixo: " << tipoLixo << endl;
-            for(double capMax : pontoRecolhaAtual.getCapacidadesMax())
-                cout << "Capacidades Max: " << capMax << endl;
+                cout << "Capacidade do Tipo de lixo " << tiposLixo.at(i) << ":" << endl;
+                double capMax;
+                cin >> capMax;
+                capMaxes.push_back(capMax);
+            }
+            Coordenadas coordenadasStub(0,0);
+            VerticeInfo *verticeInfo = new VerticeInfo(coordenadasStub,readId);
+            Vertex<VerticeInfo>* vertex = graph.findVertex(verticeInfo);
+
+
+            PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tiposLixo, capMaxes, vertex->getInfo()->getId());
+
+
+            useCases.addPontoRecolha(*pontoRecolha, graph);
+
+            cout << "Operacao realizada com sucesso" << endl;
+
+
+
+
+        } else if (option == 3){
+            //print
+            vector<PontoRecolha> pontosRecolha = useCases.getAllPontosRecolha(graph);
+
+            for(PontoRecolha pontoRecolhaAtual : pontosRecolha){
+                cout << "\nPonto Recolha ID: " << pontoRecolhaAtual.getId() << endl;
+                cout << "Coordenada: " << pontoRecolhaAtual.getCoordenadas().getX() << ", " << pontoRecolhaAtual.getCoordenadas().getY() << endl;
+                for(TipoLixo tipoLixo : pontoRecolhaAtual.getTipoLixo())
+                    cout << "TipoLixo: " << tipoLixo << endl;
+                for(double capMax : pontoRecolhaAtual.getCapacidadesMax())
+                    cout << "Capacidade Max: " << capMax << endl;
+
+
+
+            }
         }
+    } else {
+        return;
     }
+
+
+    menuUE();
 
 
 }

@@ -57,16 +57,15 @@ bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomicil
 
 }
 
-
-/*template<typename Base, typename T>
+template<typename Base, typename T>
 inline bool instanceof(const T *ptr) {
     return dynamic_cast<const Base*>(ptr) != nullptr;
-}*/
+}
 
-template<typename Base, typename T>
+/*template<typename Base, typename T>
 inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
-}
+}*/
 
 vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
 
@@ -93,7 +92,7 @@ vector<PontoRecolha> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph
         VerticeInfo *info = vertice->getInfo();
 
         if(instanceof<PontoRecolha>(info)){
-            auto* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(info));
+            auto* pontoRecolha = dynamic_cast<PontoRecolha*>(info);
             vector<double> taxasOcupacao = pontoRecolha->getTaxasOcupacao();
             for(int j = 0; j < taxasOcupacao.size(); j++) {
                 double taxa = taxasOcupacao.at(j);
@@ -305,10 +304,9 @@ vector<PontoRecolha> UseCases::getAllPontosRecolha(Graph<VerticeInfo> graph) {
     vector<Vertex<VerticeInfo>*> vertexSet = graph.getVertexSet();
     for(Vertex<VerticeInfo>* currentVertex : vertexSet){
 
-        VerticeInfo verticeInfo = *(currentVertex->getInfo());
-        VerticeInfo* verticeInfoptr = &verticeInfo;
+        VerticeInfo* verticeInfoptr = currentVertex->getInfo();
         if(instanceof<PontoRecolha>(verticeInfoptr)){
-            PontoRecolha* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(verticeInfoptr));
+            PontoRecolha* pontoRecolha = dynamic_cast<PontoRecolha *>(verticeInfoptr);
             pontosRecolha.push_back(*pontoRecolha);
         }
     }

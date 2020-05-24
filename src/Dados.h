@@ -22,6 +22,8 @@ public:
     VerticeInfo(Coordenadas &coordenadas, int id) : coordenadas(coordenadas), id(id) {
     }
 
+    virtual ~VerticeInfo() = default;
+
 
 
     bool static containsEnum(vector<TipoLixo> v, int value);
@@ -32,6 +34,7 @@ public:
     friend std::ostream & operator <<(std::ostream &of, const VerticeInfo &ci);
 
     bool operator==(const VerticeInfo &ci);
+    bool operator==(const int &ci);
 
     bool operator!=(const VerticeInfo &ci);
 
@@ -109,6 +112,10 @@ int VerticeInfo::getId() const {
     return id;
 }
 
+bool VerticeInfo::operator==(const int &ci) {
+    return id == ci;
+}
+
 
 
 
@@ -146,7 +153,7 @@ public:
 };
 
 
-class PontoRecolhaDomiciliario : public VerticeInfo{
+class PontoRecolhaDomiciliario : public virtual VerticeInfo{
 
 public:
     PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo, int id) : VerticeInfo(
@@ -160,7 +167,7 @@ private:
 
 static double taxaViavel = 0.5;
 
-class PontoRecolha : public VerticeInfo {
+class PontoRecolha : public virtual VerticeInfo {
 public:
 
     PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax, int id)
@@ -191,14 +198,14 @@ private:
     vector<double> capacidadesMax;
 }; //recycling
 
-class PontoPartida : public VerticeInfo {
+class PontoPartida : public virtual VerticeInfo {
 public:
     PontoPartida(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
 
 };//waste_transfer_station
 
 
-class CentroReciclagem : public VerticeInfo {
+class CentroReciclagem : public virtual VerticeInfo {
 public:
     CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo, int id) : VerticeInfo(coordenadas, id), tipoLixo(tipoLixo) {}
 

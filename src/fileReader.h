@@ -15,13 +15,14 @@ public:
 
     FileReader();
 
-    //template<class T>
-    void readNodes_simples(Graph<VerticeInfo> &graph, string nome);
 
     //template<class T>
-    void readEdges_simples(Graph<VerticeInfo> &graph, string nome);
+    bool readNodes_simples(Graph<VerticeInfo> &graph, string nome);
 
-    void readTags(Graph<VerticeInfo> &graph, string nome);
+    //template<class T>
+    bool readEdges_simples(Graph<VerticeInfo> &graph, string nome);
+
+    bool readTags(Graph<VerticeInfo> &graph, string nome);
 
 
 };

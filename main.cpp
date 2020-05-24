@@ -21,12 +21,7 @@ int main()
     Graph<VerticeInfo> graph;
 
 
-
-    fileReader.readNodes_simples(graph,"maps/GridGraphs/4x4/nodes.txt");
-    fileReader.readEdges_simples(graph,"maps/GridGraphs/4x4/edges.txt");
-
-
-    Menu menu(graph);
+    //Menu menu(graph);
 
     return 0;
 }

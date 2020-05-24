@@ -68,7 +68,6 @@ bool VerticeInfo::containsEnum(vector<TipoLixo> v, int value){
 
 vector<TipoLixo> VerticeInfo::generateTiposLixo(){
     vector<TipoLixo> vet;
-    srand(time(NULL));
 
     for(int i=0;i<rand()%5+1;i++){
         int random = rand()%6;
@@ -191,6 +190,10 @@ public:
         return taxasOcupacao;
     }
 
+    void setTaxasOcupacao(const vector<double> &taxasOcupacao) {
+        PontoRecolha::taxasOcupacao = taxasOcupacao;
+    }
+
 private:
 
     vector<TipoLixo>  tipoLixo;
@@ -207,11 +210,8 @@ public:
 
 class CentroReciclagem : public virtual VerticeInfo {
 public:
-    CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo, int id) : VerticeInfo(coordenadas, id), tipoLixo(tipoLixo) {}
+    CentroReciclagem(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
 
-private:
-
-    TipoLixo tipoLixo;
 };//waste_disposal
 
 static double capcidadeMaxCamiao = 500; //valor possivel de ser mudado para fazer os testes

@@ -91,7 +91,12 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 template <class T>
 T* Vertex<T>::getInfo() const {
-    return this->info;
+    return info;
+}
+
+template<class T>
+void Vertex<T>::setInfo(T *info) {
+    this->info = info;
 }
 
 template <class T>
@@ -194,10 +199,7 @@ public:
 
 };
 
-template<class T>
-void Vertex<T>::setInfo(T *info) {
-    Vertex::info = info;
-}
+
 
 
 template <class T>

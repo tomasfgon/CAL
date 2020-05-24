@@ -16,14 +16,8 @@ int main()
     //TODO  loadMap();
 
 
-    Graph<VerticeInfo> graph;
     FileReader fileReader;
-
-    fileReader.readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt");
-
-
     //Menu menu;
-
 
     return 0;
 }

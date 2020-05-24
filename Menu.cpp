@@ -145,7 +145,7 @@ void Menu::menuUE() {
         vector<double> capMax;
         capMax.push_back(100);
         capMax.push_back(333);
-        PontoRecolha *pontoRecolha = new PontoRecolha(coordenadas, tiposLixo, capMax);
+        PontoRecolha *pontoRecolha = new PontoRecolha(coordenadas, tiposLixo, capMax, vertex->getInfo()->getId());
 
 
         useCases.addPontoRecolha(*pontoRecolha, graph);

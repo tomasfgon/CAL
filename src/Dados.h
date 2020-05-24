@@ -14,18 +14,14 @@
 
 using namespace std;
 
-int idNumber;
+
 
 class VerticeInfo {
 public:
 
-    VerticeInfo(Coordenadas &coordenadas) : coordenadas(coordenadas) {
-        id = idNumber;
-        idNumber++;
+    VerticeInfo(Coordenadas &coordenadas, int id) : coordenadas(coordenadas), id(id) {
     }
 
-    VerticeInfo(int id, Coordenadas &coordenadas) : coordenadas(coordenadas), id(id) {
-    }
 
 
     bool static containsEnum(vector<TipoLixo> v, int value);
@@ -41,14 +37,17 @@ public:
 
     VerticeInfo operator =(VerticeInfo verticeInfo);
 
+    Coordenadas &getCoordenadas();
+
+    void setCoordenadas( Coordenadas &coordenadas);
+
+    int getId() const;
+
 private:
 
     int id;
     Coordenadas coordenadas;
-public:
-    Coordenadas &getCoordenadas();
 
-    void setCoordenadas( Coordenadas &coordenadas);
 
 
 
@@ -95,7 +94,7 @@ bool VerticeInfo::operator!=(const VerticeInfo &ci) {
 }
 
 VerticeInfo VerticeInfo::operator=(VerticeInfo verticeInfo2) {
-    return VerticeInfo(verticeInfo2.coordenadas);
+    return VerticeInfo(verticeInfo2.getCoordenadas(), verticeInfo2.getId());
 }
 
 Coordenadas &VerticeInfo::getCoordenadas() {
@@ -104,6 +103,10 @@ Coordenadas &VerticeInfo::getCoordenadas() {
 
 void VerticeInfo::setCoordenadas(Coordenadas &coordenadas) {
     VerticeInfo::coordenadas = coordenadas;
+}
+
+int VerticeInfo::getId() const {
+    return id;
 }
 
 
@@ -137,12 +140,17 @@ private:
 };
 
 
+class VerticeInfoGeral : public  VerticeInfo{
+public:
+    VerticeInfoGeral(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
+};
+
 
 class PontoRecolhaDomiciliario : public VerticeInfo{
 
 public:
-    PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
-            coordenadas), tipoLixo(tipoLixo) {}
+    PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo, int id) : VerticeInfo(
+            coordenadas, id), tipoLixo(tipoLixo) {}
 
 private:
 
@@ -155,8 +163,10 @@ static double taxaViavel = 0.5;
 class PontoRecolha : public VerticeInfo {
 public:
 
-    PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax) : VerticeInfo(coordenadas),
-                                                                         tipoLixo(tipoLixo), capacidadesMax(capMax) {
+    PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax, int id)
+            : VerticeInfo(coordenadas,
+                          id),
+              tipoLixo(tipoLixo), capacidadesMax(capMax) {
         for(int i = 0; i < tipoLixo.size(); i++)
             taxasOcupacao.push_back(0);
     }
@@ -183,13 +193,14 @@ private:
 
 class PontoPartida : public VerticeInfo {
 public:
-    PontoPartida(Coordenadas coordenadas) : VerticeInfo(coordenadas) {}
+    PontoPartida(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
 
 };//waste_transfer_station
 
+
 class CentroReciclagem : public VerticeInfo {
 public:
-    CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo) : VerticeInfo(coordenadas), tipoLixo(tipoLixo) {}
+    CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo, int id) : VerticeInfo(coordenadas, id), tipoLixo(tipoLixo) {}
 
 private:
 

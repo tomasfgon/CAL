@@ -16,14 +16,10 @@ int main()
 
     //TODO  loadMap();
 
-
-    FileReader fileReader;
     Graph<VerticeInfo> graph;
 
+    FileReader fileReader(graph);
 
-
-    fileReader.readNodes_simples(graph,"maps/GridGraphs/4x4/nodes.txt");
-    fileReader.readEdges_simples(graph,"maps/GridGraphs/4x4/edges.txt");
 
 
     Menu menu(graph);

@@ -58,6 +58,11 @@ bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomicil
 }
 
 
+/*template<typename Base, typename T>
+inline bool instanceof(const T *ptr) {
+    return dynamic_cast<const Base*>(ptr) != nullptr;
+}*/
+
 template<typename Base, typename T>
 inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
@@ -86,10 +91,9 @@ vector<PontoRecolha> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph
     for(int i = 0; i < vertices.size(); i++){
         Vertex<VerticeInfo> *vertice = vertices.at(i);
         VerticeInfo *info = vertice->getInfo();
-        VerticeInfo* infoP = &*info;
 
-        if(instanceof<PontoRecolha>(infoP)){
-            PontoRecolha* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(infoP));
+        if(instanceof<PontoRecolha>(info)){
+            auto* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(info));
             vector<double> taxasOcupacao = pontoRecolha->getTaxasOcupacao();
             for(int j = 0; j < taxasOcupacao.size(); j++) {
                 double taxa = taxasOcupacao.at(j);
@@ -233,6 +237,9 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
                 }
             }
         }
+
+        //TODO
+        //ultima iteracao para o centro de recolha
 
 
 

@@ -13,7 +13,7 @@ class FileReader {
 
 public:
 
-    FileReader();
+    FileReader(Graph<VerticeInfo> &graph);
 
 
     //template<class T>

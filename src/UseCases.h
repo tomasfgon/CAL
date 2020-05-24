@@ -19,6 +19,8 @@ public:
 
     vector<Edge<VerticeInfo>> determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph); //UC3
 
+    vector<PontoRecolha> getAllPontosRecolha(Graph<VerticeInfo> graph);
+
 private:
 
     vector<PontoRecolha> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);

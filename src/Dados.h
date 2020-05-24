@@ -119,8 +119,11 @@ static double taxaViavel = 0.5;
 
 class PontoRecolha : public VerticeInfo {
 public:
-    PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(coordenadas),
-                                                                         tipoLixo(tipoLixo) {}
+    PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax) : VerticeInfo(coordenadas),
+                                                                         tipoLixo(tipoLixo), capacidadesMax(capMax) {
+        for(int i = 0; i < tipoLixo.size(); i++)
+            taxasOcupacao.push_back(0);
+    }
 
     const vector<double> &getCapacidadesMax() const {
         return capacidadesMax;

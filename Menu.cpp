@@ -3,9 +3,10 @@
 //
 
 #include "Menu.h"
-#include "src/UseCases.h"
+#include "src/UseCases.cpp"
 
-Menu::Menu(){
+
+Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
     loginMenu();
     if(login == 1){menuUM();}
 
@@ -132,9 +133,34 @@ void Menu::menuUE() {
         menuUE();
     }
 
-   // UseCases useCases;
+    UseCases useCases;
     if(option == 1){
-      //  useCases.checkConectividade()
+        //criar ponto recolha exemplo
+        vector<Vertex<VerticeInfo>*> vertexSet = graph.getVertexSet();
+        Vertex<VerticeInfo> *vertex = vertexSet.at(0);
+        Coordenadas coordenadas = vertex->getInfo()->getCoordenadas();
+        vector<TipoLixo> tiposLixo;
+        tiposLixo.push_back(papel);
+        tiposLixo.push_back(metal);
+        vector<double> capMax;
+        capMax.push_back(100);
+        capMax.push_back(333);
+        PontoRecolha *pontoRecolha = new PontoRecolha(coordenadas, tiposLixo, capMax);
+
+
+        useCases.addPontoRecolha(*pontoRecolha, graph);
+
+        //print
+        vector<PontoRecolha> pontosRecolha = useCases.getAllPontosRecolha(graph);
+
+        for(PontoRecolha pontoRecolhaAtual : pontosRecolha){
+            cout << "Ponto Recolha: " << endl;
+            cout << "Coordenada: " << pontoRecolhaAtual.getCoordenadas().getX() << ", " << pontoRecolhaAtual.getCoordenadas().getY() << endl;
+            for(TipoLixo tipoLixo : pontoRecolhaAtual.getTipoLixo())
+                cout << "TipoLixo: " << tipoLixo << endl;
+            for(double capMax : pontoRecolhaAtual.getCapacidadesMax())
+                cout << "Capacidades Max: " << capMax << endl;
+        }
     }
 
 
@@ -183,6 +209,11 @@ void Menu::menuUM() {
     if(option <1 || option>3){
         menuUM();
     }}
+
+const Graph<VerticeInfo> &Menu::getGraph() const {
+    return graph;
+}
+
 
 
 

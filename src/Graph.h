@@ -24,7 +24,7 @@ template <class T> class Vertex;
 
 template <class T>
 class Vertex {
-    T info;                // contents
+    T *info;                // contents
     vector<Edge<T> > adj;  // outgoing edges
     bool visited;          // auxiliary field
     double dist = 0;
@@ -35,9 +35,9 @@ class Vertex {
 
 
 public:
-    Vertex(T in);
+    Vertex(T *in);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
-    T getInfo() const;
+    T* getInfo() const;
     bool isVisited() const;
     double getDist() const;
     Vertex *getPath() const;
@@ -45,11 +45,13 @@ public:
     bool removeEdgeTo(Vertex<T> *d);
     friend class Graph<T>;
     friend class MutablePriorityQueue<Vertex<T>>;
+
+    void setInfo(T *info);
 };
 
 
 template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex<T>::Vertex(T *in): info(in) {}
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
@@ -88,7 +90,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 
 
 template <class T>
-T Vertex<T>::getInfo() const {
+T* Vertex<T>::getInfo() const {
     return this->info;
 }
 
@@ -160,13 +162,13 @@ class Graph {
     bool relax(Vertex<T> *v, Vertex<T> *w, double weight);
     double ** W = nullptr;   // dist
     int **P = nullptr;   // path
-    int findVertexIdx(const T &in) const;
+    int findVertexIdx(const T *in) const;
 
     void dfsVisit(Vertex<T> *v, vector<T> &res) const;
 
 public:
-    Vertex<T> *findVertex(const T &in) const;
-    bool addVertex(const T &in);
+    Vertex<T> *findVertex(const T *in) const;
+    bool addVertex( T *in) ;
     bool addEdge(const T &sourc, const T &dest, double w);
     int getNumVertex() const;
     vector<Vertex<T> *> getVertexSet() const;
@@ -192,7 +194,10 @@ public:
 
 };
 
-
+template<class T>
+void Vertex<T>::setInfo(T *info) {
+    Vertex::info = info;
+}
 
 
 template <class T>
@@ -229,9 +234,9 @@ vector<Vertex<T> *> Graph<T>::getVertexSet() const {
  * Auxiliary function to find a vertex with a given content.
  */
 template <class T>
-Vertex<T> * Graph<T>::findVertex(const T &in) const {
-    for (auto v : vertexSet)
-        if (v->info == in)
+Vertex<T> * Graph<T>::findVertex(const T *in) const {
+    for (Vertex<T> *v : vertexSet)
+        if (*(v->getInfo()) == *in)
             return v;
     return nullptr;
 }
@@ -240,18 +245,18 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
  * Finds the index of the vertex with a given content.
  */
 template <class T>
-int Graph<T>::findVertexIdx(const T &in) const {
-    for (unsigned i = 0; i < vertexSet.size(); i++)
-        if (vertexSet[i]->info == in)
-            return i;
+int Graph<T>::findVertexIdx(const T *in) const {
+    /*for (unsigned i = 0; i < vertexSet.size(); i++)
+        if (vertexSet.at(i) == *in)
+            return i;*/
     return -1;
 }
 /*
- *  Adds a vertex with a given content or info (in) to a graph (this).
+ *  Adds a vertex with a given content or *info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
-bool Graph<T>::addVertex(const T &in) {
+bool Graph<T>::addVertex( T *in) {
     if (findVertex(in) != nullptr)
         return false;
     vertexSet.push_back(new Vertex<T>(in));
@@ -265,8 +270,8 @@ bool Graph<T>::addVertex(const T &in) {
  */
 template <class T>
 bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
-    auto v1 = findVertex(sourc);
-    auto v2 = findVertex(dest);
+    auto v1 = findVertex(&sourc);
+    auto v2 = findVertex(&dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
     v1->addEdge(v2, w);
@@ -287,7 +292,7 @@ Vertex<T> * Graph<T>::initSingleSource(const T &origin) {
         v->dist = INF;
         v->path = nullptr;
     }
-    auto s = findVertex(origin);
+    auto s = findVertex(&origin);
     s->dist = 0;
     return s;
 }
@@ -330,11 +335,11 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
 template<class T>
 vector<T> Graph<T>::getPath(const T &origin, const T &dest) const{
     vector<T> res;
-    auto v = findVertex(dest);
+    Vertex<T> *v = findVertex(&dest);
     if (v == nullptr || v->dist == INF) // missing or disconnected
         return res;
     for ( ; v != nullptr; v = v->path)
-        res.push_back(v->info);
+        res.push_back(*(v->getInfo()));
     reverse(res.begin(), res.end());
     return res;
 }
@@ -389,7 +394,7 @@ Graph<T>::~Graph() {
 
 template<class T>
 void Graph<T>::floydWarshallShortestPath() {
-    unsigned n = vertexSet.size();
+/*    unsigned n = vertexSet.size();
     deleteMatrix(W, n);
     deleteMatrix(P, n);
     W = new double *[n];
@@ -402,7 +407,7 @@ void Graph<T>::floydWarshallShortestPath() {
             P[i][j] = -1;
         }
         for (auto e : vertexSet[i]->adj) {
-            int j = findVertexIdx(e.dest->info);
+            int j = findVertexIdx(e.dest->);
             W[i][j]  = e.weight;
             P[i][j]  = i;
         }
@@ -418,20 +423,20 @@ void Graph<T>::floydWarshallShortestPath() {
                     W[i][j] = val;
                     P[i][j] = P[k][j];
                 }
-            }
+            }*/
 }
 
 
 template<class T>
 vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
     vector<T> res;
-    int i = findVertexIdx(orig);
+    /*int i = findVertexIdx(orig);
     int j = findVertexIdx(dest);
     if (i == -1 || j == -1 || W[i][j] == INF) // missing or disconnected
         return res;
     for ( ; j != -1; j = P[i][j])
-        res.push_back(vertexSet[j]->info);
-    reverse(res.begin(), res.end());
+        res.push_back(vertexSet[j]->*info);
+    reverse(res.begin(), res.end());*/
     return res;
 }
 
@@ -483,7 +488,7 @@ vector<T> Graph<T>::dfs() const {
 template <class T>
 void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
     v->visited = true;
-    res.push_back(v->info);
+    res.push_back(*(v->getInfo()));
     for (auto & e : v->adj) {
         auto w = e.dest;
         if ( ! w->visited)

@@ -21,7 +21,6 @@ void FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
     file.open(filename);
 
     getline(file, line);
-
     numberNodes = stoi(line);
 
     for(int i=0;i<numberNodes;i++){
@@ -49,7 +48,7 @@ void FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
 
 
         Coordenadas coordenadas(x,y);
-        VerticeInfo info(id, coordenadas);
+        auto *info = new VerticeInfo(id, coordenadas);
         graph.addVertex(info);
     }
     file.close();
@@ -87,16 +86,16 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
         VerticeInfo vi2(id2, coordenadas);
 
 
-        Vertex<VerticeInfo> *v1 = graph.findVertex(vi1);
-        Vertex<VerticeInfo> *v2 = graph.findVertex(vi2);
+        Vertex<VerticeInfo> *v1 = graph.findVertex(&vi1);
+        Vertex<VerticeInfo> *v2 = graph.findVertex(&vi2);
 
 
 
 
-        double x1 = v1->getInfo().getCoordenadas().getX();
-        double y1 = v1->getInfo().getCoordenadas().getY();
-        double x2 = v2->getInfo().getCoordenadas().getX();
-        double y2 = v2->getInfo().getCoordenadas().getY();
+        double x1 = v1->getInfo()->getCoordenadas().getX();
+        double y1 = v1->getInfo()->getCoordenadas().getY();
+        double x2 = v2->getInfo()->getCoordenadas().getX();
+        double y2 = v2->getInfo()->getCoordenadas().getY();
 
 
 
@@ -105,7 +104,7 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
 
 
-        graph.addEdge(v1->getInfo(),v2->getInfo(), distance);
+        graph.addEdge(*(v1->getInfo()),*(v2->getInfo()), distance);
 
 
     }

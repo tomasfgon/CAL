@@ -8,15 +8,22 @@
 
 bool UseCases::addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph) {
 
-    //Verifica conectividade
+/*    //Verifica conectividade
     Graph<VerticeInfo> graphCopy = graph;
-    graphCopy.addVertex(pontoRecolha);
+    Vertex<VerticeInfo> *vertex = graphCopy.findVertex(pontoRecolha);
+    vertex->setInfo(pontoRecolha);
     if(checkConectividade(graphCopy)){
-        graph.addVertex(pontoRecolha);
+        graph.findVertex(pontoRecolha);
+        Vertex<VerticeInfo> *actualVertex = graph.findVertex(pontoRecolha);
+        actualVertex->setInfo(pontoRecolha);
         return true;
-    }
+    }*/
 
-return false;
+    Vertex<VerticeInfo> *vertex = graph.findVertex(&pontoRecolha);
+    vertex->setInfo(&pontoRecolha);
+
+//return false;
+return true;
 }
 
 bool UseCases::checkConectividade(Graph<VerticeInfo> graph) { //usando dfs
@@ -40,9 +47,9 @@ bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomicil
 
     //Verifica conectividade
     Graph<VerticeInfo> graphCopy = graph;
-    graphCopy.addVertex(pontoRecolhaDomiciliario);
+    graphCopy.addVertex(&pontoRecolhaDomiciliario);
     if(checkConectividade(graphCopy)){
-        graph.addVertex(pontoRecolhaDomiciliario);
+        graph.addVertex(&pontoRecolhaDomiciliario);
         return true;
     }
 
@@ -78,8 +85,8 @@ vector<PontoRecolha> UseCases::getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph
 
     for(int i = 0; i < vertices.size(); i++){
         Vertex<VerticeInfo> *vertice = vertices.at(i);
-        VerticeInfo info = vertice->getInfo();
-        VerticeInfo* infoP = &info;
+        VerticeInfo *info = vertice->getInfo();
+        VerticeInfo* infoP = &*info;
 
         if(instanceof<PontoRecolha>(infoP)){
             PontoRecolha* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(infoP));
@@ -215,9 +222,9 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
 
         for(int j = 0; j < pontosRecolhaMaisProxOrdenados.size() - 1; j++) {
             VerticeInfo verticeInfo = pontosRecolhaMaisProxOrdenados.at(j);
-            Vertex<VerticeInfo>* vertex = graph.findVertex(verticeInfo);
+            Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
             VerticeInfo verticeInfoNext = pontosRecolhaMaisProxOrdenados.at(j+1);
-            Vertex<VerticeInfo>* vertexNext = graph.findVertex(verticeInfo);
+            Vertex<VerticeInfo>* vertexNext = graph.findVertex(&verticeInfo);
 
             for(Edge<VerticeInfo> edge : vertex->getAdj()){
                 if(edge.getDest() == vertexNext){
@@ -253,7 +260,7 @@ void UseCases::obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha,
 
                 for(VerticeInfo verticeInfo : shortestPath){
                     //ir guardando a soma das distancias
-                    Vertex<VerticeInfo>* vertex = graph.findVertex(verticeInfo);
+                    Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
                     for(Edge<VerticeInfo> edge : vertex->getAdj()){
                         if(edge.getDest() == vertex->getPath()){
                             dist+= edge.getWeight();
@@ -276,8 +283,29 @@ void UseCases::obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha,
         minDist = DBL_MAX;
     }
 
-    listToReturn.push_back(bestVertex->getInfo());
-    oldPonto = bestVertex->getInfo();
+    listToReturn.push_back(*(bestVertex->getInfo()));
+    oldPonto = *(bestVertex->getInfo());
     if(pontosRecolha.size() > listToReturn.size())
         obterPontosRecolhaMaisProximo(pontosRecolha, oldPonto, tipoLixoAtual, graph, listToReturn);
+}
+
+
+
+vector<PontoRecolha> UseCases::getAllPontosRecolha(Graph<VerticeInfo> graph) {
+
+    vector<PontoRecolha> pontosRecolha;
+
+    vector<Vertex<VerticeInfo>*> vertexSet = graph.getVertexSet();
+    for(Vertex<VerticeInfo>* currentVertex : vertexSet){
+
+        VerticeInfo verticeInfo = *(currentVertex->getInfo());
+        VerticeInfo* verticeInfoptr = &verticeInfo;
+        if(instanceof<PontoRecolha>(verticeInfoptr)){
+            PontoRecolha* pontoRecolha = static_cast<PontoRecolha *>(dynamic_cast<VerticeInfo *>(verticeInfoptr));
+            pontosRecolha.push_back(*pontoRecolha);
+        }
+    }
+
+
+    return pontosRecolha;
 }

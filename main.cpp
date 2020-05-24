@@ -19,11 +19,11 @@ int main()
     FileReader fileReader;
 
 
-    fileReader.readNodes_simples(graph,"maps/PortugalMaps/Porto/nodes_x_y_porto.txt");
-    fileReader.readEdges_simples(graph,"maps/PortugalMaps/Porto/edges_porto.txt");
+    fileReader.readNodes_simples(graph,"maps/GridGraphs/4x4/nodes.txt");
+    fileReader.readEdges_simples(graph,"maps/GridGraphs/4x4/edges.txt");
 
 
-    Menu menu;
+    Menu menu(graph);
 
 
     return 0;

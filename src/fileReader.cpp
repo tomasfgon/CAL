@@ -19,7 +19,7 @@ FileReader::FileReader(){
         cout << "could not read Edges file" << endl;
         return;
     };
-    if(readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
+    if(!readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
         cout << "could not read Tags file" << endl;
         return;
     };
@@ -46,7 +46,14 @@ bool FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
     else{
         getline(file, line);
 
-        numberNodes = stoi(line);
+        try{
+            numberNodes = stoi(line);
+        }
+        catch(exception &err)
+        {
+            cout<<"Conversion error"<<endl;
+            return false;
+        }
 
 
         for(int i=0;i<numberNodes;i++){
@@ -57,7 +64,17 @@ bool FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
 
             sep = line.find(',');
             //cout << line.substr(1,sep) << endl;
-            id = stoi(line.substr(1,sep));
+
+            try{
+                id = stoi(line.substr(1,sep));
+            }
+            catch(exception &err)
+            {
+                cout<<"Conversion error"<<endl;
+                return false;
+            }
+
+
             line.erase(0,sep+1);
 
 
@@ -110,11 +127,30 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
             unsigned sep;
             getline(file, line);
             sep = line.find(",");
-            id1 = stoi(line.substr(1, sep));
+            try{
+                id1 = stoi(line.substr(1, sep));
+            }
+            catch(exception &err)
+            {
+                cout<<"Conversion error"<<endl;
+                return false;
+            }
+
             //cout << "id1: " << id1 << endl;
             line.erase(0,sep+1);
             sep = line.find(')');
-            id2 = stoi(line.substr(0, sep));
+
+            try{
+                id2 = stoi(line.substr(0, sep));
+            }
+            catch(exception &err)
+            {
+                cout<<"Conversion error"<<endl;
+                return false;
+            }
+
+
+
             //cout << "id2: " << id2 << endl << endl;
 
 
@@ -167,9 +203,9 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         return false;
     }
 
-    else{getline(file, line);
+    else{
+        getline(file, line);
         //cout << "number tags: "<<line << endl;
-
         numberTags = stoi(line);
 
         //cout << "number tags: "<< numberTags<<endl;
@@ -183,14 +219,29 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
                 getline(file, line);
 
+                try{
+                    numberNodes = stoi(line);
+                }
+                catch(exception &err)
+                {
+                    cout<<"Conversion error"<<endl;
+                    return false;
+                }
 
-                numberNodes = stoi(line);
 
                 //cout << "Number nodes: " << numberNodes << endl<<endl;
                 for(int i=0;i<numberNodes;i++){
 
                     getline(file, line);
 
+                    try{
+                        stoi(line);
+                    }
+                    catch(exception &err)
+                    {
+                        cout<<"Conversion error"<<endl;
+                        return false;
+                    }
                     //cout << line << endl;
                     Coordenadas coordenadas(0,0);
                     VerticeInfo *verticeInfo = new VerticeInfo(stoi(line),coordenadas);
@@ -228,10 +279,16 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
                 }
             }
-
             else{
                 getline(file, line);
-                numberNodes = stoi(line);
+                try{
+                    numberNodes = stoi(line);
+                }
+                catch(exception &err)
+                {
+                    cout<<"Conversion error"<<endl;
+                    return false;
+                }
                 for(int i=0;i<numberNodes;i++) {
 
                     getline(file, line);

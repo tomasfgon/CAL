@@ -25,6 +25,7 @@ public:
     bool readTags(Graph<VerticeInfo> &graph, string nome);
 
 
+
 };
 
 

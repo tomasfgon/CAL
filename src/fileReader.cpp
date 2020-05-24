@@ -8,8 +8,13 @@
 
 using namespace std;
 
-//mapas
-//template <class T>
+FileReader::FileReader(){
+    Graph<VerticeInfo> graph;
+    readNodes_simples(graph, "maps/PortugalMaps/Porto/nodes_x_y_porto.txt");
+    readEdges_simples(graph, "maps/PortugalMaps/Porto/edges_porto.txt");
+    readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt");
+}
+
 void FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
     int numberNodes;
     string line;
@@ -54,7 +59,6 @@ void FileReader::readNodes_simples(Graph<VerticeInfo> &graph, string nome) {
     file.close();
 }
 
-//template <class T>
 void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
     int numberEdges;
     ifstream file;
@@ -66,7 +70,7 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
     getline(file, line);
     //cout << "number: " << line << endl;
-    numberEdges = stoi(line);
+    //numberEdges = stoi(line);
 
     for(int i=0;i<numberEdges;i++){
         int id1,id2;
@@ -110,5 +114,128 @@ void FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
     }
 
     file.close();
+
+}
+
+void FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
+
+    Vertex<VerticeInfo> *vertex;
+    int numberTags, numberNodes;
+
+    string TagType;
+    ifstream file;
+    string line;
+    string filename = nome;
+
+    file.open(filename);
+
+    getline(file, line);
+    //cout << "number tags: "<<line << endl;
+
+    numberTags = stoi(line);
+
+    //cout << "number tags: "<< numberTags<<endl;
+    for(int i=0;i<numberTags;i++){
+        getline(file, TagType);
+        if(TagType.substr(0, 8) == "amenity="){
+            cout<< TagType << endl;
+            TagType.erase(0, 8);
+
+
+
+            getline(file, line);
+
+            numberNodes = stoi(line);
+
+            //cout << "Number nodes: " << numberNodes << endl<<endl;
+            for(int i=0;i<numberNodes;i++){
+
+                getline(file, line);
+
+                //cout << line << endl;
+                Coordenadas coordenadas(0,0);
+                VerticeInfo *verticeInfo = new VerticeInfo(stoi(line),coordenadas);
+                vertex = graph.findVertex(verticeInfo);
+
+                if(TagType == "waste_basket"){
+                    //PontoRecolhaDomiciliaria
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos);
+                }
+                else if(TagType == "recycling"){
+                    //PontoRecolha
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    vector<double> capMax;
+                    for(int j = 0; j < tipos.size(); j++)
+                        capMax.push_back(500);
+                    PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tipos, capMax);
+
+                }
+                else if(TagType == "waste_disposal"){
+                    //CentroReciclagem
+                    vector<TipoLixo> tipos;
+                    tipos = VerticeInfo::generateTiposLixo();
+                    CentroReciclagem(vertex->getInfo()->getCoordenadas(), tipos[0]);
+                }
+                else if(TagType == "waste_transfer_station"){
+                    //PontoPartida
+                    PontoPartida(vertex->getInfo()->getCoordenadas());
+                }
+
+            }
+        }
+        /*
+        else if(TagType.substr(0, 4) == "bin="){
+            //cout << TagType << endl;
+            TagType.erase(0, 4);
+            getline(file, line);
+            numberNodes = stoi(line);
+
+            for(int i=0;i<numberNodes;i++) {
+
+                getline(file, line);
+            }
+        }
+        else if(TagType.substr(0, 8) == "landuse=") {
+            //cout << TagType << endl;
+            TagType.erase(0, 8);
+            getline(file, line);
+            numberNodes = stoi(line);
+            for(int i=0;i<numberNodes;i++) {
+
+                getline(file, line);
+            }
+        }
+        else if(TagType.substr(0, 15) == "recycling_type="){
+            //cout << TagType << endl;
+            TagType.erase(0, 15);
+            getline(file, line);
+            numberNodes = stoi(line);
+            for(int i=0;i<numberNodes;i++) {
+
+                getline(file, line);
+            }
+        }
+        else if(TagType.substr(0, 6) == "waste="){
+            //cout << TagType << endl;
+            TagType.erase(0, 6);
+            getline(file, line);
+            numberNodes = stoi(line);
+            for(int i=0;i<numberNodes;i++) {
+
+                getline(file, line);
+            }
+        }*/
+        else{
+            getline(file, line);
+            numberNodes = stoi(line);
+            for(int i=0;i<numberNodes;i++) {
+
+                getline(file, line);
+            }
+        }
+    }
 
 }

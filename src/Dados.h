@@ -9,6 +9,8 @@
 #include <vector>
 #include "Coordenadas.h"
 #include "Graph.h"
+#include "TipoLixo.h"
+#include <time.h>
 
 using namespace std;
 
@@ -26,6 +28,11 @@ public:
     }
 
 
+    bool static containsEnum(vector<TipoLixo> v, int value);
+
+    vector<TipoLixo> static generateTiposLixo();
+
+
     friend std::ostream & operator <<(std::ostream &of, const VerticeInfo &ci);
 
     bool operator==(const VerticeInfo &ci);
@@ -39,12 +46,38 @@ private:
     int id;
     Coordenadas coordenadas;
 public:
-    const Coordenadas &getCoordenadas() const;
+    Coordenadas &getCoordenadas();
 
-    void setCoordenadas(const Coordenadas &coordenadas);
+    void setCoordenadas( Coordenadas &coordenadas);
+
 
 
 };
+
+
+bool VerticeInfo::containsEnum(vector<TipoLixo> v, int value){
+    for(int i=0;i<v.size();i++){
+        if (v[i] == value){
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<TipoLixo> VerticeInfo::generateTiposLixo(){
+    vector<TipoLixo> vet;
+    srand(time(NULL));
+
+    for(int i=0;i<rand()%5+1;i++){
+        int random = rand()%6;
+        TipoLixo tipoLixo = TipoLixo(random);
+        if(!containsEnum(vet, random)){
+            vet.push_back(tipoLixo);
+        }
+    }
+
+    return vet;
+}
 
 std::ostream &operator<<(std::ostream &of, const VerticeInfo &ci) {
     of << "Vertice ID: " << ci.id;
@@ -65,13 +98,15 @@ VerticeInfo VerticeInfo::operator=(VerticeInfo verticeInfo2) {
     return VerticeInfo(verticeInfo2.coordenadas);
 }
 
-const Coordenadas &VerticeInfo::getCoordenadas() const {
+Coordenadas &VerticeInfo::getCoordenadas() {
     return coordenadas;
 }
 
-void VerticeInfo::setCoordenadas(const Coordenadas &coordenadas) {
+void VerticeInfo::setCoordenadas(Coordenadas &coordenadas) {
     VerticeInfo::coordenadas = coordenadas;
 }
+
+
 
 
 //Dados Entrada
@@ -106,24 +141,26 @@ private:
 class PontoRecolhaDomiciliario : public VerticeInfo{
 
 public:
-    PontoRecolhaDomiciliario(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
+    PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo) : VerticeInfo(
             coordenadas), tipoLixo(tipoLixo) {}
 
 private:
 
     vector<TipoLixo>  tipoLixo;
     vector<double> pesos;
-};
+};//waste_basket
 
 static double taxaViavel = 0.5;
 
 class PontoRecolha : public VerticeInfo {
 public:
+
     PontoRecolha(Coordenadas &coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax) : VerticeInfo(coordenadas),
                                                                          tipoLixo(tipoLixo), capacidadesMax(capMax) {
         for(int i = 0; i < tipoLixo.size(); i++)
             taxasOcupacao.push_back(0);
     }
+
 
     const vector<double> &getCapacidadesMax() const {
         return capacidadesMax;
@@ -142,22 +179,22 @@ private:
     vector<TipoLixo>  tipoLixo;
     vector<double> taxasOcupacao;
     vector<double> capacidadesMax;
-};
+}; //recycling
 
 class PontoPartida : public VerticeInfo {
 public:
-    PontoPartida(Coordenadas &coordenadas) : VerticeInfo(coordenadas) {}
+    PontoPartida(Coordenadas coordenadas) : VerticeInfo(coordenadas) {}
 
-};
+};//waste_transfer_station
 
 class CentroReciclagem : public VerticeInfo {
 public:
-    CentroReciclagem(Coordenadas &coordenadas, TipoLixo tipoLixo) : VerticeInfo(coordenadas), tipoLixo(tipoLixo) {}
+    CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo) : VerticeInfo(coordenadas), tipoLixo(tipoLixo) {}
 
 private:
 
     TipoLixo tipoLixo;
-};
+};//waste_disposal
 
 static double capcidadeMaxCamiao = 500; //valor possivel de ser mudado para fazer os testes
 
@@ -189,3 +226,8 @@ private:
     vector<Edge<VerticeInfo>> arestasIdeais;
 };
 
+
+//waste_basket
+//recycling
+//waste_disposal
+//waste_transfer_station

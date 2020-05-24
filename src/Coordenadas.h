@@ -7,7 +7,6 @@
 #ifndef PROJETO_COORDENADAS_H
 #define PROJETO_COORDENADAS_H
 
-
 class Coordenadas {
 private:
     double x;
@@ -21,7 +20,7 @@ public:
         y = segundo;
     }
 
-    double getY() const {
+    double getY() const  {
         return y;
     }
 
@@ -29,7 +28,7 @@ public:
         Coordenadas::y = y;
     }
 
-    double getX() const {
+    double getX() const{
         return x;
     }
 

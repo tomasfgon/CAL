@@ -24,6 +24,8 @@ public:
 
     bool readTags(Graph<VerticeInfo> &graph, string nome);
 
+    void randomizeTags(Graph<VerticeInfo> &graph);
+
 
 
 };

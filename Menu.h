@@ -32,6 +32,8 @@ public:
     void menuUM();
     void menuUP();
     void menuUE();
+    void menuAdmin();
+    void menuController();
 
 };
 

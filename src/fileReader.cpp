@@ -10,18 +10,19 @@ using namespace std;
 
 FileReader::FileReader(Graph<VerticeInfo> &graph){
 
-    if(!readNodes_simples(graph, "maps/PortugalMaps/Porto/nodes_x_y_porto.txt")){
+    if(!readNodes_simples(graph, "maps/MapasEspinho/espinho_strong_nodes_xy.txt")){
         cout << "could not read Nodes file" << endl;
         return;
     };
-    if(!readEdges_simples(graph, "maps/PortugalMaps/Porto/edges_porto.txt")){
+    if(!readEdges_simples(graph, "maps/MapasEspinho/espinho_strong_edges.txt")){
         cout << "could not read Edges file" << endl;
         return;
     };
-    if(!readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
+/*    if(!readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
         cout << "could not read Tags file" << endl;
         return;
-    };
+    };*/
+    randomizeTags(graph);
 
 }
 
@@ -119,7 +120,7 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
         getline(file, line);
         //cout << "number: " << line << endl;
-        //numberEdges = stoi(line);
+        numberEdges = stoi(line);
 
         for(int i=0;i<numberEdges;i++){
             int id1,id2;
@@ -252,8 +253,19 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
 
-                        PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, vertex->getInfo()->getId());
+                        vector<double> capMax;
+                        vector<double> taxas;
+                        for(int j = 0; j < tipos.size(); j++){
+                            capMax.push_back(50);
 
+                            //insert random taxas
+                            float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                            double rd = (double) r;
+                            taxas.push_back(rd);
+                        }
+
+                        PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, capMax ,vertex->getInfo()->getId());
+                        p->setTaxasOcupacao(taxas);
 
                         vertex->setInfo(p);
 
@@ -327,4 +339,37 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         file.close();
         return true;
     }
+}
+
+void FileReader::randomizeTags(Graph<VerticeInfo> &graph) {
+
+    vector<Vertex<VerticeInfo>*> vertices = graph.getVertexSet();
+    int n = 0;
+    for(Vertex<VerticeInfo>* vertex : vertices){
+        if(n%100 == 0){
+            //PontoRecolha
+            vector<TipoLixo> tipos;
+            tipos = VerticeInfo::generateTiposLixo();
+            vector<double> capMax;
+            vector<double> taxas;
+            for(int j = 0; j < tipos.size(); j++){
+                capMax.push_back(50);
+
+                //insert random taxas
+                float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                double rd = (double) r;
+                taxas.push_back(rd);
+            }
+
+
+            PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tipos,
+                                                          capMax, vertex->getInfo()->getId());
+
+            pontoRecolha->setTaxasOcupacao(taxas);
+
+            vertex->setInfo(pontoRecolha);
+        }
+        n++;
+    }
+
 }

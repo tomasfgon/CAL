@@ -143,22 +143,34 @@ private:
 };
 
 
-class VerticeInfoGeral : public  VerticeInfo{
-public:
-    VerticeInfoGeral(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
-};
-
 
 class PontoRecolhaDomiciliario : public virtual VerticeInfo{
 
 public:
-    PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo, int id) : VerticeInfo(
-            coordenadas, id), tipoLixo(tipoLixo) {}
+    PontoRecolhaDomiciliario(Coordenadas coordenadas, vector<TipoLixo> &tipoLixo, vector<double> capMax, int id) :VerticeInfo(coordenadas,
+                                                                                                                              id),
+                                                                                                                  tipoLixo(tipoLixo), capacidadesMax(capMax) {}
 
+    const vector<double> &getCapacidadesMax() const {
+        return capacidadesMax;
+    }
+
+    const vector<TipoLixo> &getTipoLixo() const {
+        return tipoLixo;
+    }
+
+    const vector<double> &getTaxasOcupacao() const {
+        return taxasOcupacao;
+    }
+
+    void setTaxasOcupacao(const vector<double> &taxasOcupacao) {
+        PontoRecolhaDomiciliario::taxasOcupacao = taxasOcupacao;
+    }
 private:
 
     vector<TipoLixo>  tipoLixo;
-    vector<double> pesos;
+    vector<double> taxasOcupacao;
+    vector<double> capacidadesMax;
 };//waste_basket
 
 static double taxaViavel = 0.5;

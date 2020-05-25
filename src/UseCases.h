@@ -22,6 +22,12 @@ public:
 
     vector<PontoRecolha> getAllPontosRecolha(Graph<VerticeInfo> graph);
 
+    vector<PontoRecolhaDomiciliario> getAllPontosRecolhaDomestica(Graph<VerticeInfo> graph);
+
+    bool checkConectividadeDomiciliario(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v);
+
+    vector<Edge<VerticeInfo>> getEdgesFromVertexes(vector<VerticeInfo> verticeInfos, Graph<VerticeInfo> graph);
+
 private:
 
     vector<PontoRecolha> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);

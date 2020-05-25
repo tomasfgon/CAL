@@ -5,7 +5,7 @@
 #if defined(__linux__) || defined(__APPLE__)
 pid_t GraphViewer::procId = NULL;
 #endif
-short GraphViewer::port = 7772;
+short GraphViewer::port = 8000;
 
 GraphViewer::GraphViewer(int width, int height, bool dynamic) {
 	initialize(width, height, dynamic, GraphViewer::port);

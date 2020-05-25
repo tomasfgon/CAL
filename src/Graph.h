@@ -26,7 +26,12 @@ template <class T>
 class Vertex {
     T *info;                // contents
     vector<Edge<T> > adj;  // outgoing edges
-    bool visited;          // auxiliary field
+    bool visited;
+public:
+    void setVisited(bool visited);
+
+private:
+    // auxiliary field
     double dist = 0;
     Vertex<T> *path = nullptr;
     int queueIndex = 0; 		// required by MutablePriorityQueue
@@ -197,6 +202,11 @@ public:
 template<class T>
 void Vertex<T>::setInfo(T *info) {
     Vertex::info = info;
+}
+
+template<class T>
+void Vertex<T>::setVisited(bool visited) {
+    Vertex::visited = visited;
 }
 
 

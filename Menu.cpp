@@ -259,7 +259,40 @@ void Menu::menuUP() {int option=-1;
             }
         } else if(option == 2){
 
+
+            cout << "Indique qual o seu local atual através do id do vertice mais proximo de si: " << endl;
+            int idLocal;
+            cin >> idLocal;
+            Coordenadas coordenadas(0,0);
+            VerticeInfo pontoAtual(coordenadas, idLocal);
+
+            cout << "Indique o numero de tipos de lixo que contem:" << endl;
+            int numTipo;
+            cin >> numTipo;
+            cout << "Usando os numeros respetivos aos tipos insira um numero de cada vez seguido de enter" << endl;
+            vector<TipoLixo> tiposLixo;
+            for (int i = 0; i < numTipo; i++) {
+
+                cout << "papel = 0 ,plastico = 1,vidro = 2 ,metal = 3,organico = 4 ,naoReciclavel = 5" << endl;
+                int tipo;
+                cin >> tipo;
+                tiposLixo.push_back(TipoLixo(tipo));
+
+
+
+                vector<PontoRecolha> pontosRecolha = useCases.getAllPontosRecolha(graph);
+                vector<VerticeInfo> listToReturn;
+                useCases.obterPontosRecolhaMaisProximo(pontosRecolha, pontoAtual, TipoLixo(tipo), graph, listToReturn);
+                cout << "Pontos de recolha na vizinhanca para este tipo de lixo: \n" << endl;
+                for(VerticeInfo verticeInfo: listToReturn){
+                    cout << "\nPonto Recolha ID: " << verticeInfo.getId() << endl;
+                    cout << "Coordenada: " << verticeInfo.getCoordenadas().getX() << ", "
+                         << verticeInfo.getCoordenadas().getY() << endl;
+                }
+            }
+
             
+
 
         }
     } else {

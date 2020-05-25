@@ -28,6 +28,8 @@ public:
 
     vector<Edge<VerticeInfo>> getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha ,Graph<VerticeInfo> graph);
 
+    void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
+
 private:
 
     vector<PontoRecolha> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);
@@ -38,7 +40,7 @@ private:
 
     vector<vector<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem);
 
-    void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
+
 };
 
 

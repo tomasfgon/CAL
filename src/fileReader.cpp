@@ -391,6 +391,30 @@ void FileReader::randomizeTags(Graph<VerticeInfo> &graph) {
             pontoRecolha->setTaxasOcupacao(taxas);
 
             vertex->setInfo(pontoRecolha);
+        } else if (n%333 == 0){
+
+            //PontoRecolhaDomiciliario
+            vector<TipoLixo> tipos;
+            tipos = VerticeInfo::generateTiposLixo();
+            vector<double> capMax;
+            vector<double> taxas;
+            for(int j = 0; j < tipos.size(); j++){
+                capMax.push_back(25);
+
+                //insert random taxas
+                float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                double rd = (double) r;
+                taxas.push_back(rd);
+            }
+
+
+            PontoRecolhaDomiciliario *pontoRecolha = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos,
+                                                          capMax, vertex->getInfo()->getId());
+
+            pontoRecolha->setTaxasOcupacao(taxas);
+
+            vertex->setInfo(pontoRecolha);
+
         }
         n++;
     }

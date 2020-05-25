@@ -1,7 +1,7 @@
 #include <iostream>
 #include "src/Graph.h"
 #include "Menu.cpp"
-#include "src/fileReader.cpp"
+
 #include <time.h>
 #include "src/PrintGraph.h"
 #include "src/PrintGraph.cpp"
@@ -46,12 +46,12 @@ int main()
 
 
 
-    FileReader fileReader(graph);
+    //FileReader fileReader(graph);
 
-    printGraph.create(graph);
+    //printGraph.create(graph);
 
 
-    //Menu menu(graph);
+    Menu menu(graph);
 
 
 

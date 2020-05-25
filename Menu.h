@@ -24,6 +24,8 @@ public:
 
     const Graph<VerticeInfo> &getGraph() const;
 
+    string mapa();
+
 
 public:
     bool verifyOption();

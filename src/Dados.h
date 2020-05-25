@@ -19,7 +19,7 @@ using namespace std;
 class VerticeInfo {
 public:
 
-    VerticeInfo(Coordenadas &coordenadas, int id) : coordenadas(coordenadas), id(id) {
+    VerticeInfo(Coordenadas coordenadas, int id) : coordenadas(coordenadas), id(id) {
     }
 
     virtual ~VerticeInfo() = default;
@@ -237,3 +237,53 @@ private:
 //recycling
 //waste_disposal
 //waste_transfer_station
+
+
+double getMaxX(Graph<VerticeInfo> &g){
+    double value = g.getVertexSet()[0]->getInfo()->getCoordenadas().getX();
+    for(auto i: g.getVertexSet()){
+        if(i->getInfo()->getCoordenadas().getX()>value){
+            value = i->getInfo()->getCoordenadas().getX();
+        }
+
+    }
+    return value;
+}
+
+double getMaxY(Graph<VerticeInfo> &g){
+    double value = g.getVertexSet()[0]->getInfo()->getCoordenadas().getY();
+    for(auto i: g.getVertexSet()){
+        if(i->getInfo()->getCoordenadas().getY()>value){
+            value = i->getInfo()->getCoordenadas().getY();
+        }
+
+    }
+    return value;
+
+}
+
+double getMinX(Graph<VerticeInfo> &g){
+    double value = g.getVertexSet()[0]->getInfo()->getCoordenadas().getX();
+    for(auto i: g.getVertexSet()){
+
+        if(i->getInfo()->getCoordenadas().getX()<value){
+            value = i->getInfo()->getCoordenadas().getX();
+        }
+
+    }
+    return value;
+
+}
+
+double getMinY(Graph<VerticeInfo> &g){
+
+    double value = g.getVertexSet()[0]->getInfo()->getCoordenadas().getY();
+    for(auto i: g.getVertexSet()){
+        if(i->getInfo()->getCoordenadas().getY()<value){
+            value = i->getInfo()->getCoordenadas().getY();
+        }
+
+    }
+    return value;
+
+}

@@ -1,8 +1,12 @@
 #include <iostream>
 #include "src/Graph.h"
 #include "Menu.cpp"
-#include "src/fileReader.cpp"
+
 #include <time.h>
+#include "src/PrintGraph.h"
+#include "src/PrintGraph.cpp"
+
+
 
 using namespace std;
 
@@ -16,14 +20,39 @@ int main()
 
     //TODO  loadMap();
 
+
     Graph<VerticeInfo> graph;
 
-    FileReader fileReader(graph);
+    /*
+    Coordenadas c1(0,2);
+    Coordenadas c2(3,0);
+    Coordenadas c3(-1,1);
+    Coordenadas c4(2,2);
+
+    VerticeInfo *v1 = new VerticeInfo(c1,1);
+    VerticeInfo *v2 = new VerticeInfo(c2,2);
+    VerticeInfo *v3 = new VerticeInfo(c3,3);
+    VerticeInfo *v4 = new VerticeInfo(c4,4);
+
+    graph.addVertex(v1);
+    graph.addVertex(v2);
+    graph.addVertex(v3);
+    graph.addVertex(v4);
+     */
 
 
+
+    PrintGraph printGraph;
+
+
+
+    //FileReader fileReader(graph);
+
+    //printGraph.create(graph);
 
 
     Menu menu(graph);
+
 
 
     return 0;

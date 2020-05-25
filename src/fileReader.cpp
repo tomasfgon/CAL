@@ -10,18 +10,23 @@ using namespace std;
 
 FileReader::FileReader(Graph<VerticeInfo> &graph){
 
-    if(!readNodes_simples(graph, "maps/PortugalMaps/Porto/nodes_x_y_porto.txt")){
+    cout << "Reading Nodes..." << endl;
+    if(!readNodes_simples(graph, "maps/PortugalMaps/Ermesinde/nodes_x_y_ermesinde.txt")){
         cout << "could not read Nodes file" << endl;
         return;
-    };
-    if(!readEdges_simples(graph, "maps/PortugalMaps/Porto/edges_porto.txt")){
+    }
+
+    cout << "Reading Edges..."<<endl;
+    if(!readEdges_simples(graph, "maps/PortugalMaps/Ermesinde/edges_ermesinde.txt")){
         cout << "could not read Edges file" << endl;
         return;
-    };
-    if(!readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
+    }
+
+    cout << "Reading Tags..."<<endl;
+    if(!readTags(graph, "maps/TagExamples/Ermesinde/t02_tags_ermesinde.txt")){
         cout << "could not read Tags file" << endl;
         return;
-    };
+    }
 
 }
 
@@ -188,6 +193,7 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
 
+
     Vertex<VerticeInfo> *vertex;
     int numberTags, numberNodes;
 
@@ -211,9 +217,16 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         //cout << "number tags: "<< numberTags<<endl;
         for(int i=0;i<numberTags;i++){
             getline(file, TagType);
+            TagType = TagType.substr(0,TagType.length()-1);
+
+            //cout << TagType.length() << endl;
+            //cout << TagType << endl;
+
+
             if(TagType.substr(0, 8) == "amenity="){
-                //cout<< TagType << endl;
-                TagType.erase(0, 8);
+                //cout << TagType << endl;
+                //cout<< TagType.substr(0,TagType.length()-1) << endl;
+                //TagType.erase(0, 8);
 
 
 
@@ -247,8 +260,11 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                     VerticeInfo *verticeInfo = new VerticeInfo(coordenadas, stoi(line));
                     vertex = graph.findVertex(verticeInfo);
 
-                    if(TagType == "waste_basket"){
+
+
+                    if(TagType == "amenity=waste_basket"){
                         //PontoRecolhaDomiciliaria
+                        //cout << "chegou" << endl;
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
 
@@ -259,7 +275,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
 
                     }
-                    else if(TagType == "recycling"){
+                    else if(TagType == "amenity=recycling"){
                         //PontoRecolha
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
@@ -285,7 +301,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
 
                     }
-                    else if(TagType == "waste_disposal"){
+                    else if(TagType == "amenity=waste_disposal"){
                         //CentroReciclagem
 
                         CentroReciclagem *p = new CentroReciclagem(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
@@ -295,7 +311,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         vertex->setInfo(p);
 
                     }
-                    else if(TagType == "waste_transfer_station"){
+                    else if(TagType == "amenity=waste_transfer_station"){
                         //PontoPartida
                         PontoPartida *p = new PontoPartida(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
 

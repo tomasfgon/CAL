@@ -100,7 +100,7 @@ string Menu::mapa(){
     cout << "Choose user type: ";
     cin>> login;
     if (!verifyOption()) {
-        mapa();
+        return mapa();
     }
     if(login<1 || login>10){
         cout << endl;

@@ -8,22 +8,23 @@
 
 using namespace std;
 
-FileReader::FileReader(Graph<VerticeInfo> &graph){
-
+FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
+    string low = cidade;
+    transform(low.begin(), low.end(), low.begin(), ::tolower);
     cout << "Reading Nodes..." << endl;
-    if(!readNodes_simples(graph, "maps/PortugalMaps/Ermesinde/nodes_x_y_ermesinde.txt")){
+    if(!readNodes_simples(graph, "maps/PortugalMaps/"+cidade+"/nodes_x_y_"+low+".txt")){
         cout << "could not read Nodes file" << endl;
         return;
     }
 
     cout << "Reading Edges..."<<endl;
-    if(!readEdges_simples(graph, "maps/PortugalMaps/Ermesinde/edges_ermesinde.txt")){
+    if(!readEdges_simples(graph, "maps/PortugalMaps/"+cidade+"/edges_"+low+".txt")){
         cout << "could not read Edges file" << endl;
         return;
     }
 
     cout << "Reading Tags..."<<endl;
-    if(!readTags(graph, "maps/TagExamples/Ermesinde/t02_tags_ermesinde.txt")){
+    if(!readTags(graph, "maps/TagExamples/"+cidade+"/t02_tags_"+low+".txt")){
         cout << "could not read Tags file" << endl;
         return;
     }

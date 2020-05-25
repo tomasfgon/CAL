@@ -75,9 +75,6 @@ GraphViewer* PrintGraph::create(Graph<VerticeInfo> &g) {
                     gv->addEdge(counter++, vertex->getInfo()->getId(), j.getDest()->getInfo()->getId(), EdgeType::UNDIRECTED);
                     vertex->setVisited(true);
                 }
-
-
-
             }
         }
 

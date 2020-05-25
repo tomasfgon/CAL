@@ -38,7 +38,7 @@ public:
 
     bool operator!=(const VerticeInfo &ci);
 
-
+    VerticeInfo operator =(VerticeInfo verticeInfo);
 
     Coordenadas &getCoordenadas();
 
@@ -95,6 +95,9 @@ bool VerticeInfo::operator!=(const VerticeInfo &ci) {
     return id != ci.id;
 }
 
+VerticeInfo VerticeInfo::operator=(VerticeInfo verticeInfo2) {
+    return VerticeInfo(verticeInfo2.getCoordenadas(), verticeInfo2.getId());
+}
 
 Coordenadas &VerticeInfo::getCoordenadas() {
     return coordenadas;
@@ -187,10 +190,6 @@ public:
         return taxasOcupacao;
     }
 
-    void setTaxasOcupacao(const vector<double> &taxasOcupacao) {
-        PontoRecolha::taxasOcupacao = taxasOcupacao;
-    }
-
 private:
 
     vector<TipoLixo>  tipoLixo;
@@ -207,8 +206,11 @@ public:
 
 class CentroReciclagem : public virtual VerticeInfo {
 public:
-    CentroReciclagem(Coordenadas coordenadas, int id) : VerticeInfo(coordenadas, id) {}
+    CentroReciclagem(Coordenadas coordenadas, TipoLixo tipoLixo, int id) : VerticeInfo(coordenadas, id), tipoLixo(tipoLixo) {}
 
+private:
+
+    TipoLixo tipoLixo;
 };//waste_disposal
 
 static double capcidadeMaxCamiao = 500; //valor possivel de ser mudado para fazer os testes
@@ -230,7 +232,16 @@ private:
 
 
 
+//Dados Saida
 
+class SequenciaIdeal {
+public:
+    SequenciaIdeal(vector<Edge<VerticeInfo>> &arestasIdeais) : arestasIdeais(arestasIdeais) {}
+
+private:
+
+    vector<Edge<VerticeInfo>> arestasIdeais;
+};
 
 
 //waste_basket

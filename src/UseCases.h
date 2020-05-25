@@ -11,8 +11,7 @@
 class UseCases {
 public:
 
-    bool checkConectividade(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v); //UC nao existente por agora
-    bool checkConectividade2Points(Graph<VerticeInfo> graph, Vertex<VerticeInfo> vInicial, Vertex<VerticeInfo> vFinal); //UC nao existente por agora
+    bool checkConectividade(Graph<VerticeInfo> graph); //UC nao existente por agora
 
     bool addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph); //UC2
 

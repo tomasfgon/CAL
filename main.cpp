@@ -3,8 +3,6 @@
 #include "Menu.cpp"
 
 #include <time.h>
-#include "src/PrintGraph.h"
-#include "src/PrintGraph.cpp"
 
 
 
@@ -23,7 +21,7 @@ int main()
 
     Graph<VerticeInfo> graph;
 
-    /*
+
     Coordenadas c1(0,2);
     Coordenadas c2(3,0);
     Coordenadas c3(-1,1);
@@ -38,13 +36,12 @@ int main()
     graph.addVertex(v2);
     graph.addVertex(v3);
     graph.addVertex(v4);
-     */
 
 
 
-    PrintGraph printGraph;
 
-
+/*    PrintGraph printGraph;
+    printGraph.create(graph);*/
 
     //FileReader fileReader(graph);
 

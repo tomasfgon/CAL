@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "src/UseCases.cpp"
 #include "src/fileReader.cpp"
+#include "src/PrintGraph.cpp"
 
 
 Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
@@ -12,6 +13,7 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
     string cidade = mapa();
 
     FileReader fileReader(graph, cidade);
+
 
     loginMenu();
     if(login == 1){menuUM();}
@@ -251,19 +253,15 @@ void Menu::menuUE() {
             PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tiposLixo, capMaxes, vertex->getInfo()->getId());
 
 
-            if(useCases.addPontoRecolha(*pontoRecolha, graph)){
-                cout << "\nOperacao realizada com sucesso" << endl;
-            } else {
-                cout << "\nNao foi possivel realizar a adicao, ponto nao conexo" << endl;
-            }
+            useCases.addPontoRecolha(*pontoRecolha, graph);
 
-
+            cout << "Operacao realizada com sucesso" << endl;
 
 
 
 
         } else if (option == 3){
-            //print pontos de recolha
+            //print
             vector<PontoRecolha> pontosRecolha = useCases.getAllPontosRecolha(graph);
 
             for(PontoRecolha pontoRecolhaAtual : pontosRecolha){
@@ -308,18 +306,7 @@ void Menu::menuUP() {int option=-1;
     }
     if(option <1 || option>4){
         menuUP();
-    }
-
-    if(option != 3){
-
-    } else {
-        return;
-    }
-
-    menuUM();
-
-
-}
+    }}
 
 void Menu::menuUM() {
 
@@ -341,65 +328,7 @@ void Menu::menuUM() {
     }
     if(option <1 || option>3){
         menuUM();
-    }
-
-    if(option != 3){
-        UseCases useCases;
-        if(option == 2){
-
-            //escolher ponto de partida e de chegada
-            cout << "Indique o id do ponto de partida dos camioes" << endl;
-            int idPartida;
-            cin >> idPartida;
-            cout << "Indique o id da Central de Recolha na qual depositar o lixo" << endl;
-            int idCentral;
-            cin >> idCentral;
-
-            Coordenadas coordenadasStub(0,0);
-            PontoPartida *pontoPartida = new PontoPartida(coordenadasStub,idPartida);
-
-            CentroReciclagem *centroReciclagem = new CentroReciclagem(coordenadasStub,idCentral);
-
-            Vertex<VerticeInfo>* vInicial = graph.findVertex(pontoPartida);
-            Vertex<VerticeInfo>* vFinal = graph.findVertex(centroReciclagem);
-
-
-            if(!useCases.checkConectividade2Points(graph,*vInicial,*vFinal)){
-                cout << "Nao conexos" << endl;
-                menuUM();
-            } else {
-
-                cout << "Conexos" << endl;
-
-                vector<Edge<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
-
-                if(caminhos.empty()){
-                    cout << "\nNao e necessario recolher lixos, esta tudo abaixo da taxa viavel de recolha" << endl;
-                } else {
-
-
-                    cout << "\nCaminho de vertices a percorrer: \n" << endl;
-                    cout << caminhos.at(0).getOrig()->getInfo()->getId() << "  - Com uma distância de " << caminhos.at(0).getWeight();
-                    for(Edge<VerticeInfo> edge : caminhos){
-                        cout << edge.getDest()->getInfo()->getId() << "  - Com uma distância de " << edge.getWeight();
-                    }
-
-                    cout << "\nOperacao realizada com sucesso" << endl;
-                }
-            }
-
-
-
-        }
-
-
-    } else {
-        return;
-    }
-
-    menuUM();
-
-}
+    }}
 
 const Graph<VerticeInfo> &Menu::getGraph() const {
     return graph;

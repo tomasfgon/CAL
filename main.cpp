@@ -19,8 +19,7 @@ int main()
     //TODO  loadMap();
 
 
-    Graph<VerticeInfo> graph;
-    FileReader fileReader(graph, "loco");
+
 /*
 
     Coordenadas c1(0,2);
@@ -50,6 +49,7 @@ int main()
     //printGraph.create(graph);
 
 
+    Graph<VerticeInfo> graph;
     Menu menu(graph);
 
 

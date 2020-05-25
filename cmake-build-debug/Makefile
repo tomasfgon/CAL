@@ -123,6 +123,60 @@ Projeto/fast:
 	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/build
 .PHONY : Projeto/fast
 
+lib/connection.o: lib/connection.cpp.o
+
+.PHONY : lib/connection.o
+
+# target to build an object file
+lib/connection.cpp.o:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/connection.cpp.o
+.PHONY : lib/connection.cpp.o
+
+lib/connection.i: lib/connection.cpp.i
+
+.PHONY : lib/connection.i
+
+# target to preprocess a source file
+lib/connection.cpp.i:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/connection.cpp.i
+.PHONY : lib/connection.cpp.i
+
+lib/connection.s: lib/connection.cpp.s
+
+.PHONY : lib/connection.s
+
+# target to generate assembly for a file
+lib/connection.cpp.s:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/connection.cpp.s
+.PHONY : lib/connection.cpp.s
+
+lib/graphviewer.o: lib/graphviewer.cpp.o
+
+.PHONY : lib/graphviewer.o
+
+# target to build an object file
+lib/graphviewer.cpp.o:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o
+.PHONY : lib/graphviewer.cpp.o
+
+lib/graphviewer.i: lib/graphviewer.cpp.i
+
+.PHONY : lib/graphviewer.i
+
+# target to preprocess a source file
+lib/graphviewer.cpp.i:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/graphviewer.cpp.i
+.PHONY : lib/graphviewer.cpp.i
+
+lib/graphviewer.s: lib/graphviewer.cpp.s
+
+.PHONY : lib/graphviewer.s
+
+# target to generate assembly for a file
+lib/graphviewer.cpp.s:
+	$(MAKE) -f CMakeFiles/Projeto.dir/build.make CMakeFiles/Projeto.dir/lib/graphviewer.cpp.s
+.PHONY : lib/graphviewer.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -159,6 +213,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Projeto"
+	@echo "... lib/connection.o"
+	@echo "... lib/connection.i"
+	@echo "... lib/connection.s"
+	@echo "... lib/graphviewer.o"
+	@echo "... lib/graphviewer.i"
+	@echo "... lib/graphviewer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

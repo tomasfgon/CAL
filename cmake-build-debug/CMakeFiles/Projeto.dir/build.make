@@ -70,17 +70,47 @@ CMakeFiles/Projeto.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Projeto.dir/main.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/main.cpp" -o CMakeFiles/Projeto.dir/main.cpp.s
 
+CMakeFiles/Projeto.dir/lib/connection.cpp.o: CMakeFiles/Projeto.dir/flags.make
+CMakeFiles/Projeto.dir/lib/connection.cpp.o: ../lib/connection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Projeto.dir/lib/connection.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Projeto.dir/lib/connection.cpp.o -c "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/connection.cpp"
+
+CMakeFiles/Projeto.dir/lib/connection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Projeto.dir/lib/connection.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/connection.cpp" > CMakeFiles/Projeto.dir/lib/connection.cpp.i
+
+CMakeFiles/Projeto.dir/lib/connection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Projeto.dir/lib/connection.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/connection.cpp" -o CMakeFiles/Projeto.dir/lib/connection.cpp.s
+
+CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o: CMakeFiles/Projeto.dir/flags.make
+CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o: ../lib/graphviewer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o -c "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/graphviewer.cpp"
+
+CMakeFiles/Projeto.dir/lib/graphviewer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Projeto.dir/lib/graphviewer.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/graphviewer.cpp" > CMakeFiles/Projeto.dir/lib/graphviewer.cpp.i
+
+CMakeFiles/Projeto.dir/lib/graphviewer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Projeto.dir/lib/graphviewer.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/graphviewer.cpp" -o CMakeFiles/Projeto.dir/lib/graphviewer.cpp.s
+
 # Object files for target Projeto
 Projeto_OBJECTS = \
-"CMakeFiles/Projeto.dir/main.cpp.o"
+"CMakeFiles/Projeto.dir/main.cpp.o" \
+"CMakeFiles/Projeto.dir/lib/connection.cpp.o" \
+"CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o"
 
 # External object files for target Projeto
 Projeto_EXTERNAL_OBJECTS =
 
 Projeto: CMakeFiles/Projeto.dir/main.cpp.o
+Projeto: CMakeFiles/Projeto.dir/lib/connection.cpp.o
+Projeto: CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o
 Projeto: CMakeFiles/Projeto.dir/build.make
 Projeto: CMakeFiles/Projeto.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Projeto"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Projeto"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Projeto.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

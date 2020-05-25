@@ -8,6 +8,7 @@
 
 using namespace std;
 
+/*<<<<<<< HEAD
 FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
     string low = cidade;
     transform(low.begin(), low.end(), low.begin(), ::tolower);
@@ -28,6 +29,23 @@ FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
         cout << "could not read Tags file" << endl;
         return;
     }
+=======*/
+FileReader::FileReader(Graph<VerticeInfo> &graph, string Loco){
+
+    if(!readNodes_simples(graph, "maps/MapasEspinho/espinho_strong_nodes_xy.txt")){
+        cout << "could not read Nodes file" << endl;
+        return;
+    };
+    if(!readEdges_simples(graph, "maps/MapasEspinho/espinho_strong_edges.txt")){
+        cout << "could not read Edges file" << endl;
+        return;
+    };
+/*    if(!readTags(graph, "maps/TagExamples/Porto/t02_tags_porto.txt")){
+        cout << "could not read Tags file" << endl;
+        return;
+    };*/
+    randomizeTags(graph);
+
 
 }
 
@@ -125,7 +143,7 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 
         getline(file, line);
         //cout << "number: " << line << endl;
-        //numberEdges = stoi(line);
+        numberEdges = stoi(line);
 
         for(int i=0;i<numberEdges;i++){
             int id1,id2;
@@ -194,7 +212,6 @@ bool FileReader::readEdges_simples(Graph<VerticeInfo> &graph, string nome){
 bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
 
-
     Vertex<VerticeInfo> *vertex;
     int numberTags, numberNodes;
 
@@ -218,16 +235,9 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         //cout << "number tags: "<< numberTags<<endl;
         for(int i=0;i<numberTags;i++){
             getline(file, TagType);
-            TagType = TagType.substr(0,TagType.length()-1);
-
-            //cout << TagType.length() << endl;
-            //cout << TagType << endl;
-
-
             if(TagType.substr(0, 8) == "amenity="){
-                //cout << TagType << endl;
-                //cout<< TagType.substr(0,TagType.length()-1) << endl;
-                //TagType.erase(0, 8);
+                //cout<< TagType << endl;
+                TagType.erase(0, 8);
 
 
 
@@ -261,54 +271,71 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                     VerticeInfo *verticeInfo = new VerticeInfo(coordenadas, stoi(line));
                     vertex = graph.findVertex(verticeInfo);
 
-
-
-                    if(TagType == "amenity=waste_basket"){
+                    if(TagType == "waste_basket"){
                         //PontoRecolhaDomiciliaria
-                        //cout << "chegou" << endl;
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
 
-                        PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, vertex->getInfo()->getId());
+                        vector<double> capMax;
+                        vector<double> taxas;
+                        for(int j = 0; j < tipos.size(); j++){
+                            capMax.push_back(50);
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+                            //insert random taxas
+                            float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                            double rd = (double) r;
+                            taxas.push_back(rd);
+                        }
+
+                        PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, capMax ,vertex->getInfo()->getId());
+                        p->setTaxasOcupacao(taxas);
+
                         vertex->setInfo(p);
 
 
                     }
-                    else if(TagType == "amenity=recycling"){
+                    else if(TagType == "recycling"){
                         //PontoRecolha
                         vector<TipoLixo> tipos;
                         tipos = VerticeInfo::generateTiposLixo();
                         vector<double> capMax;
-                        for(int j = 0; j < tipos.size(); j++)
-                            capMax.push_back(500);
+                        vector<double> taxas;
+                        for(int j = 0; j < tipos.size(); j++){
+                            capMax.push_back(50);
+
+                            //insert random taxas
+                            float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                            double rd = (double) r;
+                            taxas.push_back(rd);
+                        }
+
 
                         PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tipos,
                                                                       capMax, vertex->getInfo()->getId());
 
+                        pontoRecolha->setTaxasOcupacao(taxas);
+
                         vertex->setInfo(pontoRecolha);
 
 
+
                     }
-                    else if(TagType == "amenity=waste_disposal"){
+                    else if(TagType == "waste_disposal"){
                         //CentroReciclagem
-                        vector<TipoLixo> tipos;
-                        tipos = VerticeInfo::generateTiposLixo();
 
-                        CentroReciclagem *p = new CentroReciclagem(vertex->getInfo()->getCoordenadas(), tipos[0], vertex->getInfo()->getId());
+                        CentroReciclagem *p = new CentroReciclagem(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
 
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+
                         vertex->setInfo(p);
 
                     }
-                    else if(TagType == "amenity=waste_transfer_station"){
+                    else if(TagType == "waste_transfer_station"){
                         //PontoPartida
                         PontoPartida *p = new PontoPartida(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
 
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+
                         vertex->setInfo(p);
 
 
@@ -335,4 +362,37 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
         file.close();
         return true;
     }
+}
+
+void FileReader::randomizeTags(Graph<VerticeInfo> &graph) {
+
+    vector<Vertex<VerticeInfo>*> vertices = graph.getVertexSet();
+    int n = 0;
+    for(Vertex<VerticeInfo>* vertex : vertices){
+        if(n%100 == 0){
+            //PontoRecolha
+            vector<TipoLixo> tipos;
+            tipos = VerticeInfo::generateTiposLixo();
+            vector<double> capMax;
+            vector<double> taxas;
+            for(int j = 0; j < tipos.size(); j++){
+                capMax.push_back(50);
+
+                //insert random taxas
+                float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                double rd = (double) r;
+                taxas.push_back(rd);
+            }
+
+
+            PontoRecolha *pontoRecolha = new PontoRecolha(vertex->getInfo()->getCoordenadas(), tipos,
+                                                          capMax, vertex->getInfo()->getId());
+
+            pontoRecolha->setTaxasOcupacao(taxas);
+
+            vertex->setInfo(pontoRecolha);
+        }
+        n++;
+    }
+
 }

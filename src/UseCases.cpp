@@ -5,6 +5,7 @@
 #include "UseCases.h"
 #include <math.h>
 #include <float.h>
+#include <algorithm>
 
 bool UseCases::addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph) {
 
@@ -20,41 +21,96 @@ bool UseCases::addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &g
     }*/
 
     Vertex<VerticeInfo> *vertex = graph.findVertex(&pontoRecolha);
-    vertex->setInfo(&pontoRecolha);
-
-//return false;
-return true;
-}
-
-bool UseCases::checkConectividade(Graph<VerticeInfo> graph) { //usando dfs
-
-    vector<VerticeInfo> verticesOrdenado = graph.dfs();
-    vector<Vertex< VerticeInfo> *> verticesTotais = graph.getVertexSet();
-
-
-    for(int i = 0; i < graph.getNumVertex(); i++){
-        if(!verticesTotais.at(i)->isVisited()){
-            return false;
-        }
+    if(checkConectividade(graph,*vertex)){
+        vertex->setInfo(&pontoRecolha);
+        return true;
     }
 
-  //para o grafo transposto
 
-    return true;
+    return false;
+
+}
+
+bool UseCases::checkConectividade(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v) { //usando dfs
+
+    vector<VerticeInfo> verticesOrdenado = graph.dfs();
+
+    bool first = false;
+    int numOfLixos = 0;
+    int totalSizeLixos = 0;
+    for(VerticeInfo verticeInfo : verticesOrdenado){
+        if(verticeInfo == *(v.getInfo()))
+            first = true;
+        vector<PontoRecolha> pontosRecolha = getAllPontosRecolha(graph);
+        totalSizeLixos = pontosRecolha.size();
+        for(PontoRecolha pontoRecolha : pontosRecolha){
+            if(verticeInfo == pontoRecolha)
+                numOfLixos++;
+        }
+    }
+    return numOfLixos == totalSizeLixos && first;
+
+
+    //para o grafo transposto
+
+}
+
+bool UseCases::checkConectividadeDomiciliario(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v) { //usando dfs
+
+    vector<VerticeInfo> verticesOrdenado = graph.dfs();
+
+    bool first = false;
+    int numOfLixos = 0;
+    int totalSizeLixos = 0;
+    for(VerticeInfo verticeInfo : verticesOrdenado){
+        if(verticeInfo == *(v.getInfo()))
+            first = true;
+        vector<PontoRecolhaDomiciliario> pontosRecolha = getAllPontosRecolhaDomestica(graph);
+        totalSizeLixos = pontosRecolha.size();
+        for(PontoRecolhaDomiciliario pontoRecolha : pontosRecolha){
+            if(verticeInfo == pontoRecolha)
+                numOfLixos++;
+        }
+    }
+    return numOfLixos == totalSizeLixos && first;
+
+
+    //para o grafo transposto
+
+}
+bool UseCases::checkConectividade2Points(Graph<VerticeInfo> graph, Vertex<VerticeInfo> vInicial, Vertex<VerticeInfo> vFinal) {
+
+    vector<VerticeInfo> verticesOrdenado = graph.dfs();
+
+    bool first = false;
+    bool second = false;
+    int numOfLixos = 0;
+    int totalSizeLixos = 0;
+
+    for(VerticeInfo verticeInfo : verticesOrdenado){
+        if(verticeInfo == *(vInicial.getInfo())){
+            first = true;
+        }
+        if(first && verticeInfo == *(vFinal.getInfo()))
+            second = true;
+        vector<PontoRecolha> pontosRecolha = getAllPontosRecolha(graph);
+        totalSizeLixos = pontosRecolha.size();
+        for(PontoRecolha pontoRecolha : pontosRecolha){
+            if(verticeInfo == pontoRecolha)
+                numOfLixos++;
+        }
+    }
+    return numOfLixos == totalSizeLixos && first && second;
 }
 
 bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomiciliario, Graph<VerticeInfo> graph){
 
-    //Verifica conectividade
-    Graph<VerticeInfo> graphCopy = graph;
-    graphCopy.addVertex(&pontoRecolhaDomiciliario);
-    if(checkConectividade(graphCopy)){
-        graph.addVertex(&pontoRecolhaDomiciliario);
+    Vertex<VerticeInfo> *vertex = graph.findVertex(&pontoRecolhaDomiciliario);
+    if(checkConectividadeDomiciliario(graph,*vertex)){
+        vertex->setInfo(&pontoRecolhaDomiciliario);
         return true;
     }
-
     return false;
-
 }
 
 template<typename Base, typename T>
@@ -67,7 +123,7 @@ inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
 }*/
 
-vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
+vector<vector<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
 
     //1º Detetar todos os contentores que estao acima da taxa viável
     vector<PontoRecolha> pontosParaRecolher = getPontosAcimaTaxaViavel(graph);
@@ -76,10 +132,10 @@ vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPart
     vector<Camiao> camioesNecessarios = calcularCamioesNecessarios(pontosParaRecolher);
 
     //3º Minimizar a distancia total percorrida
-    vector<Edge<VerticeInfo>> edgesOrdered = minimizarDistPercorrida(graph,camioesNecessarios,pontosParaRecolher,pontoPartida,centroReciclagem);
+    vector<vector<VerticeInfo>> verticesOrdered = minimizarDistPercorrida(graph,camioesNecessarios,pontosParaRecolher,pontoPartida,centroReciclagem);
 
 
-    return edgesOrdered;
+    return verticesOrdered;
 }
 
 
@@ -124,7 +180,7 @@ vector<Camiao> UseCases::calcularCamioesNecessarios(vector<PontoRecolha> pontosR
 
     }
 
-    return vector<Camiao>();
+    return camioes;
 }
 
 
@@ -159,7 +215,7 @@ vector<pair<double,TipoLixo>> UseCases::calcularLixoTotalPorTipo(vector<PontoRec
                     break;
 
                 case plastico:
-                        lixoPlastico+= taxas.at(j) * capacidadeMax.at(j);
+                    lixoPlastico+= taxas.at(j) * capacidadeMax.at(j);
                     break;
 
                 case vidro:
@@ -181,32 +237,39 @@ vector<pair<double,TipoLixo>> UseCases::calcularLixoTotalPorTipo(vector<PontoRec
 
         }
 
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPapel,papel));
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPlastico,plastico));
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoVidro,vidro));
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoMetal,metal));
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoOrganico,organico));
-        lixoPorTipo.push_back(pair<double,TipoLixo> (lixoNaoReciclavel,naoReciclavel));
-
-
-
+/*
+        lixoPorTipo[0] = pair<double,TipoLixo> (lixoPapel,papel);
+        lixoPorTipo[1] = pair<double,TipoLixo> (lixoPlastico,plastico);
+        lixoPorTipo[2] = pair<double,TipoLixo> (lixoVidro,vidro);
+        lixoPorTipo[3] = pair<double,TipoLixo> (lixoMetal,metal);
+        lixoPorTipo[4] = pair<double,TipoLixo> (lixoOrganico,organico);
+        lixoPorTipo[5] = pair<double,TipoLixo> (lixoNaoReciclavel,naoReciclavel);
+*/
 
     }
+
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPapel,papel));
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoPlastico,plastico));
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoVidro,vidro));
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoMetal,metal));
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoOrganico,organico));
+    lixoPorTipo.push_back(pair<double,TipoLixo> (lixoNaoReciclavel,naoReciclavel));
+
+
     return lixoPorTipo;
 }
 
-vector<Edge<VerticeInfo>>
-UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
-                                  vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem) {
+vector<vector<VerticeInfo>>UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
+                                                             vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem) {
 
-    vector<Edge<VerticeInfo>> edges;
+    vector<vector<VerticeInfo>> res;
 
     //para cada tipo de lixo
     vector<Camiao> camiaoDoMsmTipo;
     int tipoLixoAtual = 0;
     for (int i = 0; i < nTiposLixo; i++){
 
-        for(int j = 0; camioesNecessarios.size(); j++){
+        for(int j = 0; j < camioesNecessarios.size(); j++){
             if(camioesNecessarios.at(j).getTipoLixo() == tipoLixoAtual){
                 camiaoDoMsmTipo.push_back(camioesNecessarios.at(j));
             }
@@ -216,29 +279,21 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
         int nCamiaoMsmTipo = camiaoDoMsmTipo.size();
         //obter o ponto de recolha mais proximo desde o pontoPartida
         VerticeInfo oldPonto = pontoPartida;
+        Vertex<VerticeInfo> *debug = graph.findVertex(&pontoPartida);
+        VerticeInfo verticeInfoDebug = *(debug->getInfo());
 
         // obter os lixo mais perto uns dos outros
         vector<VerticeInfo> pontosRecolhaMaisProxOrdenados;
         obterPontosRecolhaMaisProximo(pontosRecolha,oldPonto,tipoLixoAtual,graph,pontosRecolhaMaisProxOrdenados);
 
-        //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
-
-        for(int j = 0; j < pontosRecolhaMaisProxOrdenados.size() - 1; j++) {
-            VerticeInfo verticeInfo = pontosRecolhaMaisProxOrdenados.at(j);
-            Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
-            VerticeInfo verticeInfoNext = pontosRecolhaMaisProxOrdenados.at(j+1);
-            Vertex<VerticeInfo>* vertexNext = graph.findVertex(&verticeInfo);
-
-            for(Edge<VerticeInfo> edge : vertex->getAdj()){
-                if(edge.getDest() == vertexNext){
-
-                    edges.push_back(edge);
-                }
-            }
-        }
-
-        //TODO
         //ultima iteracao para o centro de recolha
+        pontosRecolhaMaisProxOrdenados.push_back(centroReciclagem);
+
+
+        //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
+        // edges = getEdgesFromVertexes(pontosRecolhaMaisProxOrdenados,pontosRecolhaMaisProxOrdenados ,graph);
+
+        res.push_back(pontosRecolhaMaisProxOrdenados);
 
 
 
@@ -247,48 +302,62 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
     }
 
 
-    return edges;
+    return res;
 }
 
 
 void UseCases::obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph , vector<VerticeInfo> &listToReturn) {
+    Vertex<VerticeInfo> *debug = graph.findVertex(&oldPonto);
+    VerticeInfo verticeInfoDebug = *(debug->getInfo());
 
     double minDist = DBL_MAX;
-    Vertex<VerticeInfo>* bestVertex;
+    Vertex<VerticeInfo> *bestVertex = nullptr;
+    graph.dijkstraShortestPath(oldPonto);
     for(int j = 0; j < pontosRecolha.size(); j++){
         for(int k = 0; k < pontosRecolha.at(j).getTipoLixo().size(); k++){
             if(pontosRecolha.at(j).getTipoLixo().at(k) == tipoLixoAtual){ //apenas para os pontos de recolha do tipoLixoAtual
 
-                graph.dijkstraShortestPath(oldPonto);
+
                 vector<VerticeInfo> shortestPath = graph.getPath(oldPonto,pontosRecolha.at(j));
 
-                double dist = 0;
+                VerticeInfo vert = shortestPath.at(shortestPath.size()-1);
+                Vertex<VerticeInfo>* vertptr = graph.findVertex(&vert);
+                double dist = vertptr->getDist();
 
-                for(VerticeInfo verticeInfo : shortestPath){
+/*                for(VerticeInfo verticeInfo : shortestPath){
                     //ir guardando a soma das distancias
                     Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
                     for(Edge<VerticeInfo> edge : vertex->getAdj()){
-                        if(edge.getDest() == vertex->getPath()){
+                        if(*(edge.getDest()->getInfo()) == *(vertex->getPath()->getInfo())){
                             dist+= edge.getWeight();
                         }
                     }
+                }*/
 
-                    VerticeInfo* verticeInfoptr = &verticeInfo;
-                    if(instanceof<PontoRecolha>(verticeInfoptr) && find(listToReturn.begin(), listToReturn.end(), verticeInfo) != listToReturn.end()){ //encontrou o lixo mais perto e ainda nao foi adicionado a lista a retornar
+                Vertex<VerticeInfo>* vertex = new Vertex<VerticeInfo>(*graph.findVertex(&pontosRecolha.at(j)));
+                bool different = true;
+                for(VerticeInfo verticeInfo : listToReturn){
+                    if(verticeInfo == *(vertex->getInfo()) )
+                        different = false;
+                }
+                if(different){ //encontrou o lixo mais perto e ainda nao foi adicionado a lista a retornar
 
-                        if(dist < minDist){
-                            minDist = dist;
-                            *bestVertex = *vertex;
-                        }
-                        break;  // ir para outro ponto de recolha
+                    if(dist < minDist){
+                        minDist = dist;
+
+                        bestVertex = new Vertex<VerticeInfo>(*vertex);
                     }
+                    break;  // ir para outro ponto de recolha
                 }
 
             }
         }
-        minDist = DBL_MAX;
+
     }
 
+    if(bestVertex == nullptr){
+        return;
+    }
     listToReturn.push_back(*(bestVertex->getInfo()));
     oldPonto = *(bestVertex->getInfo());
     if(pontosRecolha.size() > listToReturn.size())
@@ -314,3 +383,43 @@ vector<PontoRecolha> UseCases::getAllPontosRecolha(Graph<VerticeInfo> graph) {
 
     return pontosRecolha;
 }
+
+vector<PontoRecolhaDomiciliario> UseCases::getAllPontosRecolhaDomestica(Graph<VerticeInfo> graph) {
+
+    vector<PontoRecolhaDomiciliario> pontosRecolha;
+
+    vector<Vertex<VerticeInfo>*> vertexSet = graph.getVertexSet();
+    for(Vertex<VerticeInfo>* currentVertex : vertexSet){
+
+        VerticeInfo* verticeInfoptr = currentVertex->getInfo();
+        if(instanceof<PontoRecolhaDomiciliario>(verticeInfoptr)){
+            PontoRecolhaDomiciliario* pontoRecolha = dynamic_cast<PontoRecolhaDomiciliario *>(verticeInfoptr);
+            pontosRecolha.push_back(*pontoRecolha);
+        }
+    }
+
+
+    return pontosRecolha;
+}
+
+vector<Edge<VerticeInfo>> UseCases::getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha , Graph<VerticeInfo> graph) {
+
+    vector<Edge<VerticeInfo>> edges;
+    int numPonto = 0;
+    for(int i = 0; i < verticeInfos.size()-1; i++){
+        graph.dijkstraShortestPath(verticeInfos.at(i));
+        vector<VerticeInfo> vertInfos = graph.getPath(verticeInfos.at(i), pontosRecolha.at(numPonto));
+        for(VerticeInfo verticeInfo : vertInfos){
+            Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
+            for(Edge<VerticeInfo> edge : vertex->getAdj()){
+                if(*(edge.getDest()->getInfo()) == *(vertex->getPath()->getInfo()))
+                    edges.push_back(edge);
+            }
+        }
+    }
+
+    return edges;
+}
+
+
+

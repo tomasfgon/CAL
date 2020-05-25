@@ -20,7 +20,8 @@ int main()
 
 
     Graph<VerticeInfo> graph;
-
+    FileReader fileReader(graph, "loco");
+/*
 
     Coordenadas c1(0,2);
     Coordenadas c2(3,0);
@@ -36,6 +37,7 @@ int main()
     graph.addVertex(v2);
     graph.addVertex(v3);
     graph.addVertex(v4);
+*/
 
 
 

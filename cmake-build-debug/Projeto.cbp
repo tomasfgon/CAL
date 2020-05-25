@@ -80,16 +80,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/connection.cpp">
+			<Option target="Projeto"/>
+		</Unit>
+		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/connection.h">
+			<Option target="Projeto"/>
+		</Unit>
+		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/graphviewer.cpp">
+			<Option target="Projeto"/>
+		</Unit>
+		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/lib/graphviewer.h">
+			<Option target="Projeto"/>
+		</Unit>
 		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/main.cpp">
-			<Option target="Projeto"/>
-		</Unit>
-		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/src/Coordenadas.h">
-			<Option target="Projeto"/>
-		</Unit>
-		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/src/Dados.h">
-			<Option target="Projeto"/>
-		</Unit>
-		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/src/TipoLixo.h">
 			<Option target="Projeto"/>
 		</Unit>
 		<Unit filename="/Users/tomas/Google Drive/FEUP/2º Ano/Pasta Pessoal/2º Semestre/CAL/Projeto/CAL/CMakeLists.txt">

@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Projeto.dir/lib/connection.cpp.o"
+  "CMakeFiles/Projeto.dir/lib/graphviewer.cpp.o"
   "CMakeFiles/Projeto.dir/main.cpp.o"
   "Projeto"
   "Projeto.pdb"

@@ -23,6 +23,8 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
 
 void Menu::menuController() {
 
+    string cidade = mapa();
+    FileReader fileReader(graph, cidade);
     loginMenu();
     if(login == 1){menuUM();}
 
@@ -53,59 +55,37 @@ bool Menu::verifyOption(){
 string Menu::mapa(){
     int login;
     cout << "\t\t Map\n\n" << endl;
-    cout << "1 - Aveiro" << endl;
-    cout << "2 - Braga" << endl;
-    cout << "3 - Coimbra" << endl;
-    cout << "4 - Ermesinde" << endl;
-    cout << "5 - Fafe" << endl;
-    cout << "6 - Gondomar" << endl;
-    cout << "7 - Lisboa" << endl;
-    cout << "8 - Maia" << endl;
-    cout << "9 - Porto" << endl;
-    cout << "10 - Viseu" << endl;
+    cout << "1 - Espinho" << endl;
+    cout << "2 - Penafiel" << endl;
+    cout << "3 - Porto" << endl;
+    cout << "4 - Exit" << endl;
     cout << endl;
     cout << "Choose user type: ";
     cin>> login;
     if (!verifyOption()) {
         return mapa();
     }
-    if(login<1 || login>10){
+    if(login<1 || login>4){
         cout << endl;
         cout << "Please choose valid option" << endl;
         mapa();
     }
-    if (verifyOption()){
-        this->login = login;
+    if (!verifyOption()){
+        cout << endl;
+        cout << "Please choose valid option" << endl;
+        return mapa();
     }
     if(login==1){
-        return "Aveiro";
+        return "Espinho";
     }
     else if(login == 2){
-        return "Braga";
+        return "Penafiel";
     }
     else if(login == 3){
-        return "Coimbra";
-    }
-    else if(login == 4){
-        return "Ermesinde";
-    }
-    else if(login == 5){
-        return "Fafe";
-    }
-    else if(login == 6){
-        return "Gondomar";
-    }
-    else if(login == 7){
-        return "Lisboa";
-    }
-    else if (login == 8){
-        return "Maia";
-    }
-    else if (login ==9){
         return "Porto";
     }
-    else if(login == 10){
-        return "Viseu";
+    else if(login == 4){
+        exit(0);
     }
 
 
@@ -295,7 +275,7 @@ void Menu::menuUP() {int option=-1;
 
                 }
                 PrintGraph printGraph;
-                printGraph.create(graph1);
+                printGraph.create(graph);
             }
 
 

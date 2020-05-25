@@ -17,14 +17,17 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
 
 
 =======*/
+
+    string cidade = mapa();
+    FileReader fileReader(graph, cidade);
+
     while(login != -1)
         menuController();
 }
 
 void Menu::menuController() {
 
-    string cidade = mapa();
-    FileReader fileReader(graph, cidade);
+
     loginMenu();
     if(login == 1){menuUM();}
 
@@ -68,7 +71,7 @@ string Menu::mapa(){
     if(login<1 || login>4){
         cout << endl;
         cout << "Please choose valid option" << endl;
-        mapa();
+        return mapa();
     }
     if (!verifyOption()){
         cout << endl;
@@ -155,14 +158,12 @@ void Menu::menuUE() {
         UseCases useCases;
         if(option == 1){
 
-
         }
 
 
 
-
-
     } else {
+
         return;
     }
 

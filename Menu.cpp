@@ -284,14 +284,21 @@ void Menu::menuUP() {int option=-1;
                 vector<VerticeInfo> listToReturn;
                 useCases.obterPontosRecolhaMaisProximo(pontosRecolha, pontoAtual, TipoLixo(tipo), graph, listToReturn);
                 cout << "Pontos de recolha na vizinhanca para este tipo de lixo: \n" << endl;
+                Graph<VerticeInfo> graph1;
                 for(VerticeInfo verticeInfo: listToReturn){
                     cout << "\nPonto Recolha ID: " << verticeInfo.getId() << endl;
                     cout << "Coordenada: " << verticeInfo.getCoordenadas().getX() << ", "
                          << verticeInfo.getCoordenadas().getY() << endl;
+
+
+                    graph1.addVertex(&verticeInfo);
+
                 }
+                PrintGraph printGraph;
+                printGraph.create(graph1);
             }
 
-            
+
 
 
         }

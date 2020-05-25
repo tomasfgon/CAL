@@ -172,6 +172,7 @@ class Graph {
     void dfsVisit(Vertex<T> *v, vector<T> &res) const;
 
 public:
+
     Vertex<T> *findVertex(const T *in) const;
     bool addVertex( T *in) ;
     bool addEdge(const T &sourc, const T &dest, double w);
@@ -505,6 +506,8 @@ void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
             dfsVisit(w, res);
     }
 }
+
+
 
 
 #endif /* GRAPH_H_ */

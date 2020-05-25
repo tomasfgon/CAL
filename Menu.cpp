@@ -292,19 +292,20 @@ void Menu::menuUM() {
 
                 cout << "Conexos" << endl;
 
-                vector<Edge<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
+                vector<vector<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
 
                 if(caminhos.empty()){
                     cout << "\nNao e necessario recolher lixos, esta tudo abaixo da taxa viavel de recolha" << endl;
                 } else {
 
+                    for(int j = 0; j < nTiposLixo; j++){
 
-                    cout << "\nCaminho de vertices a percorrer: \n" << endl;
-                    cout << caminhos.at(0).getOrig()->getInfo()->getId() << "  - Com uma distância de " << caminhos.at(0).getWeight();
-                    for(Edge<VerticeInfo> edge : caminhos){
-                        cout << edge.getDest()->getInfo()->getId() << "  - Com uma distância de " << edge.getWeight();
+                        cout << "\nCaminho de contentores a percorrer para o : " << TipoLixo(j) << "\n" << endl;
+                        for(int k = 0; k<caminhos.at(j).size();k++){
+                            cout << "ID : " << caminhos.at(j).at(k).getId() << "    Coordenadas: " << caminhos.at(j).at(k).getCoordenadas().getX() << ", " << caminhos.at(j).at(k).getCoordenadas().getY() << endl;
+                        }
+
                     }
-
                     cout << "\nOperacao realizada com sucesso" << endl;
                 }
             }

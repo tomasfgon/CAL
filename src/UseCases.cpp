@@ -124,7 +124,7 @@ inline bool instanceof(const T*) {
     return std::is_base_of<Base, T>::value;
 }*/
 
-vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
+vector<vector<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph) {
 
     //1º Detetar todos os contentores que estao acima da taxa viável
     vector<PontoRecolha> pontosParaRecolher = getPontosAcimaTaxaViavel(graph);
@@ -133,10 +133,10 @@ vector<Edge<VerticeInfo>> UseCases::determinarRotaCamioes(PontoPartida pontoPart
     vector<Camiao> camioesNecessarios = calcularCamioesNecessarios(pontosParaRecolher);
 
     //3º Minimizar a distancia total percorrida
-    vector<Edge<VerticeInfo>> edgesOrdered = minimizarDistPercorrida(graph,camioesNecessarios,pontosParaRecolher,pontoPartida,centroReciclagem);
+    vector<vector<VerticeInfo>> verticesOrdered = minimizarDistPercorrida(graph,camioesNecessarios,pontosParaRecolher,pontoPartida,centroReciclagem);
 
 
-    return edgesOrdered;
+    return verticesOrdered;
 }
 
 
@@ -260,11 +260,10 @@ vector<pair<double,TipoLixo>> UseCases::calcularLixoTotalPorTipo(vector<PontoRec
     return lixoPorTipo;
 }
 
-vector<Edge<VerticeInfo>>
-UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
+vector<vector<VerticeInfo>>UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios,
                                   vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem) {
 
-    vector<Edge<VerticeInfo>> edges;
+    vector<vector<VerticeInfo>> res;
 
     //para cada tipo de lixo
     vector<Camiao> camiaoDoMsmTipo;
@@ -293,22 +292,9 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
 
 
         //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
-        edges = getEdgesFromVertexes(pontosRecolhaMaisProxOrdenados);
+       // edges = getEdgesFromVertexes(pontosRecolhaMaisProxOrdenados,pontosRecolhaMaisProxOrdenados ,graph);
 
-/*        for(int j = 0; j < pontosRecolhaMaisProxOrdenados.size() - 1; j++) {
-            VerticeInfo verticeInfo = pontosRecolhaMaisProxOrdenados.at(j);
-            Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
-            VerticeInfo verticeInfoNext = pontosRecolhaMaisProxOrdenados.at(j+1);
-            Vertex<VerticeInfo>* vertexNext = graph.findVertex(&verticeInfo);
-
-            for(Edge<VerticeInfo> edge : vertex->getAdj()){
-                if(*(edge.getDest()->getInfo()) == *(vertexNext->getInfo())){
-
-                    edges.push_back(edge);
-                }
-            }
-        }*/
-
+        res.push_back(pontosRecolhaMaisProxOrdenados);
 
 
 
@@ -317,7 +303,7 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
     }
 
 
-    return edges;
+    return res;
 }
 
 
@@ -417,13 +403,23 @@ vector<PontoRecolhaDomiciliario> UseCases::getAllPontosRecolhaDomestica(Graph<Ve
     return pontosRecolha;
 }
 
-vector<Edge<VerticeInfo>> UseCases::getEdgesFromVertexes(vector<VerticeInfo> verticeInfos, Graph<VerticeInfo> graph) {
+vector<Edge<VerticeInfo>> UseCases::getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha , Graph<VerticeInfo> graph) {
 
-/*    for(int i = 0; i < verticeInfos.size(); i++){
-        graph
-    }*/
+    vector<Edge<VerticeInfo>> edges;
+    int numPonto = 0;
+   for(int i = 0; i < verticeInfos.size()-1; i++){
+        graph.dijkstraShortestPath(verticeInfos.at(i));
+        vector<VerticeInfo> vertInfos = graph.getPath(verticeInfos.at(i), pontosRecolha.at(numPonto));
+        for(VerticeInfo verticeInfo : vertInfos){
+           Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
+           for(Edge<VerticeInfo> edge : vertex->getAdj()){
+               if(*(edge.getDest()->getInfo()) == *(vertex->getPath()->getInfo()))
+                   edges.push_back(edge);
+           }
+        }
+    }
 
-    return vector<Edge<VerticeInfo>>();
+    return edges;
 }
 
 

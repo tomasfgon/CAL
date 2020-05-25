@@ -18,7 +18,7 @@ public:
 
     bool addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomiciliario, Graph<VerticeInfo> graph); //UC5
 
-    vector<Edge<VerticeInfo>> determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph); //UC3
+    vector<vector<VerticeInfo>> determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph); //UC3
 
     vector<PontoRecolha> getAllPontosRecolha(Graph<VerticeInfo> graph);
 
@@ -26,7 +26,7 @@ public:
 
     bool checkConectividadeDomiciliario(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v);
 
-    vector<Edge<VerticeInfo>> getEdgesFromVertexes(vector<VerticeInfo> verticeInfos, Graph<VerticeInfo> graph);
+    vector<Edge<VerticeInfo>> getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha ,Graph<VerticeInfo> graph);
 
 private:
 
@@ -36,7 +36,7 @@ private:
 
     vector<Camiao> calcularCamioesNecessarios(vector<PontoRecolha> pontosRecolha);
 
-    vector<Edge<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem);
+    vector<vector<VerticeInfo>> minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> camioesNecessarios, vector<PontoRecolha> pontosRecolha, PontoPartida pontoPartida, CentroReciclagem centroReciclagem);
 
     void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
 };

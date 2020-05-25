@@ -34,17 +34,49 @@ bool UseCases::checkConectividade(Graph<VerticeInfo> graph, Vertex<VerticeInfo> 
 
     vector<VerticeInfo> verticesOrdenado = graph.dfs();
 
-
+    bool first = false;
+    int numOfLixos = 0;
+    int totalSizeLixos = 0;
     for(VerticeInfo verticeInfo : verticesOrdenado){
         if(verticeInfo == *(v.getInfo()))
-            return true;
+            first = true;
+        vector<PontoRecolha> pontosRecolha = getAllPontosRecolha(graph);
+        totalSizeLixos = pontosRecolha.size();
+        for(PontoRecolha pontoRecolha : pontosRecolha){
+            if(verticeInfo == pontoRecolha)
+                numOfLixos++;
+        }
     }
+    return numOfLixos == totalSizeLixos && first;
 
-    return false;
 
+    //para o grafo transposto
 
-  //para o grafo transposto
+}
 
+bool UseCases::checkConectividade2Points(Graph<VerticeInfo> graph, Vertex<VerticeInfo> vInicial, Vertex<VerticeInfo> vFinal) {
+
+    vector<VerticeInfo> verticesOrdenado = graph.dfs();
+
+    bool first = false;
+    bool second = false;
+    int numOfLixos = 0;
+    int totalSizeLixos = 0;
+
+    for(VerticeInfo verticeInfo : verticesOrdenado){
+        if(verticeInfo == *(vInicial.getInfo())){
+            first = true;
+        }
+        if(first && verticeInfo == *(vFinal.getInfo()))
+            second = true;
+        vector<PontoRecolha> pontosRecolha = getAllPontosRecolha(graph);
+        totalSizeLixos = pontosRecolha.size();
+        for(PontoRecolha pontoRecolha : pontosRecolha){
+            if(verticeInfo == pontoRecolha)
+                numOfLixos++;
+        }
+    }
+    return numOfLixos == totalSizeLixos && first && second;
 }
 
 /*bool UseCases::addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomiciliario, Graph<VerticeInfo> graph){
@@ -228,6 +260,8 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
         int nCamiaoMsmTipo = camiaoDoMsmTipo.size();
         //obter o ponto de recolha mais proximo desde o pontoPartida
         VerticeInfo oldPonto = pontoPartida;
+        Vertex<VerticeInfo> *debug = graph.findVertex(&pontoPartida);
+        VerticeInfo verticeInfoDebug = *(debug->getInfo());
 
         // obter os lixo mais perto uns dos outros
         vector<VerticeInfo> pontosRecolhaMaisProxOrdenados;
@@ -266,6 +300,8 @@ UseCases::minimizarDistPercorrida(Graph<VerticeInfo> &graph, vector<Camiao> cami
 
 
 void UseCases::obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph , vector<VerticeInfo> &listToReturn) {
+    Vertex<VerticeInfo> *debug = graph.findVertex(&oldPonto);
+    VerticeInfo verticeInfoDebug = *(debug->getInfo());
 
     double minDist = DBL_MAX;
     Vertex<VerticeInfo>* bestVertex;
@@ -333,3 +369,5 @@ vector<PontoRecolha> UseCases::getAllPontosRecolha(Graph<VerticeInfo> graph) {
 
     return pontosRecolha;
 }
+
+

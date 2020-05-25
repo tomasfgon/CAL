@@ -254,7 +254,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
 
                         PontoRecolhaDomiciliario *p = new PontoRecolhaDomiciliario(vertex->getInfo()->getCoordenadas(), tipos, vertex->getInfo()->getId());
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+
                         vertex->setInfo(p);
 
 
@@ -283,6 +283,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         vertex->setInfo(pontoRecolha);
 
 
+
                     }
                     else if(TagType == "waste_disposal"){
                         //CentroReciclagem
@@ -290,7 +291,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         CentroReciclagem *p = new CentroReciclagem(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
 
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+
                         vertex->setInfo(p);
 
                     }
@@ -299,7 +300,7 @@ bool FileReader::readTags(Graph<VerticeInfo> &graph, string nome) {
                         PontoPartida *p = new PontoPartida(vertex->getInfo()->getCoordenadas(), vertex->getInfo()->getId());
 
 
-                        Vertex<VerticeInfo> *vertex = graph.findVertex(p);
+
                         vertex->setInfo(p);
 
 

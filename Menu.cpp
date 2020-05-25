@@ -292,23 +292,36 @@ void Menu::menuUM() {
 
             CentroReciclagem *centroReciclagem = new CentroReciclagem(coordenadasStub,idCentral);
 
-            Vertex<VerticeInfo>* v = graph.findVertex(pontoPartida);
+            Vertex<VerticeInfo>* vInicial = graph.findVertex(pontoPartida);
+            Vertex<VerticeInfo>* vFinal = graph.findVertex(centroReciclagem);
 
-            vector<Edge<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
 
-            if(caminhos.empty()){
-                cout << "\nNao e necessario recolher lixos, esta tudo abaixo da taxa viavel de recolha" << endl;
+            if(!useCases.checkConectividade2Points(graph,*vInicial,*vFinal)){
+                cout << "Nao conexos" << endl;
+                menuUM();
             } else {
 
+                cout << "Conexos" << endl;
 
-                cout << "\nCaminho de vertices a percorrer: \n" << endl;
-                cout << caminhos.at(0).getOrig()->getInfo()->getId() << "  - Com uma distância de " << caminhos.at(0).getWeight();
-                for(Edge<VerticeInfo> edge : caminhos){
-                    cout << edge.getDest()->getInfo()->getId() << "  - Com uma distância de " << edge.getWeight();
+                vector<Edge<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
+
+                if(caminhos.empty()){
+                    cout << "\nNao e necessario recolher lixos, esta tudo abaixo da taxa viavel de recolha" << endl;
+                } else {
+
+
+                    cout << "\nCaminho de vertices a percorrer: \n" << endl;
+                    cout << caminhos.at(0).getOrig()->getInfo()->getId() << "  - Com uma distância de " << caminhos.at(0).getWeight();
+                    for(Edge<VerticeInfo> edge : caminhos){
+                        cout << edge.getDest()->getInfo()->getId() << "  - Com uma distância de " << edge.getWeight();
+                    }
+
+                    cout << "\nOperacao realizada com sucesso" << endl;
                 }
-
-                cout << "\nOperacao realizada com sucesso" << endl;
             }
+
+
+
         }
 
 

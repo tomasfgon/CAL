@@ -10,6 +10,7 @@
 #include <algorithm>
 //#include <unordered_set>
 #include "MutablePriorityQueue.h"
+#include "Dados.h"
 #include <iostream>
 
 using namespace std;
@@ -47,6 +48,10 @@ public:
     friend class MutablePriorityQueue<Vertex<T>>;
 
     void setInfo(T *info);
+    void setInfo(PontoRecolha *info);
+    void setInfo(PontoRecolhaDomiciliario *info);
+    void setInfo(PontoPartida *info);
+    void setInfo(CentroReciclagem *info);
 };
 
 
@@ -96,7 +101,32 @@ T* Vertex<T>::getInfo() const {
 
 template<class T>
 void Vertex<T>::setInfo(T *info) {
-    this->info = info;
+    T *p = new auto(*info);
+    this->info = p;
+}
+
+template<class T>
+void Vertex<T>::setInfo(PontoRecolha *info) {
+    T *p = new PontoRecolha(*info);
+    this->info = p;
+}
+
+template<class T>
+void Vertex<T>::setInfo(PontoRecolhaDomiciliario *info) {
+    T *p = new PontoRecolhaDomiciliario(*info);
+    this->info = p;
+}
+
+template<class T>
+void Vertex<T>::setInfo(PontoPartida *info) {
+    T *p = new PontoPartida(*info);
+    this->info = p;
+}
+
+template<class T>
+void Vertex<T>::setInfo(CentroReciclagem *info) {
+    T *p = new CentroReciclagem(*info);
+    this->info = p;
 }
 
 template <class T>

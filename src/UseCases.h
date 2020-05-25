@@ -26,7 +26,7 @@ public:
 
     bool checkConectividadeDomiciliario(Graph<VerticeInfo> graph, Vertex<VerticeInfo> v);
 
-    vector<Edge<VerticeInfo>> getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha ,Graph<VerticeInfo> graph);
+    vector<VerticeInfo> getEdgesFromVertexes(PontoPartida pontoPartida,vector<VerticeInfo> pontosRecolha ,Graph<VerticeInfo> graph);
 
     void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
 

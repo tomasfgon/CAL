@@ -291,9 +291,9 @@ vector<vector<VerticeInfo>>UseCases::minimizarDistPercorrida(Graph<VerticeInfo> 
 
 
         //ir buscar as edges apartir dos pontosRecolhaMaisProxOrdenados
-        // edges = getEdgesFromVertexes(pontosRecolhaMaisProxOrdenados,pontosRecolhaMaisProxOrdenados ,graph);
+        vector<VerticeInfo> result = getEdgesFromVertexes(pontoPartida,pontosRecolhaMaisProxOrdenados ,graph);
 
-        res.push_back(pontosRecolhaMaisProxOrdenados);
+        res.push_back(result);
 
 
 
@@ -402,23 +402,29 @@ vector<PontoRecolhaDomiciliario> UseCases::getAllPontosRecolhaDomestica(Graph<Ve
     return pontosRecolha;
 }
 
-vector<Edge<VerticeInfo>> UseCases::getEdgesFromVertexes(vector<VerticeInfo> verticeInfos,vector<VerticeInfo> pontosRecolha , Graph<VerticeInfo> graph) {
+vector<VerticeInfo> UseCases::getEdgesFromVertexes(PontoPartida pontoPartida,vector<VerticeInfo> pontosRecolha , Graph<VerticeInfo> graph) {
 
-    vector<Edge<VerticeInfo>> edges;
-    int numPonto = 0;
-    for(int i = 0; i < verticeInfos.size()-1; i++){
-        graph.dijkstraShortestPath(verticeInfos.at(i));
-        vector<VerticeInfo> vertInfos = graph.getPath(verticeInfos.at(i), pontosRecolha.at(numPonto));
-        for(VerticeInfo verticeInfo : vertInfos){
+    vector<VerticeInfo> vertInfosRes;
+
+    VerticeInfo pontoInicial = pontoPartida;
+    for(int i = 0; i < pontosRecolha.size(); i++){
+        graph.dijkstraShortestPath(pontoInicial);
+        vector<VerticeInfo> vertInfos = graph.getPath(pontoInicial, pontosRecolha.at(i));
+        for(VerticeInfo verticeInfo : vertInfos)
+            vertInfosRes.push_back(verticeInfo);
+        /*for(VerticeInfo verticeInfo : vertInfos){
             Vertex<VerticeInfo>* vertex = graph.findVertex(&verticeInfo);
             for(Edge<VerticeInfo> edge : vertex->getAdj()){
-                if(*(edge.getDest()->getInfo()) == *(vertex->getPath()->getInfo()))
+                VerticeInfo edgeInfo = *(edge.getDest()->getInfo());
+                VerticeInfo vInfo = *(vertex->getPath()->getInfo());
+                if(edgeInfo == vInfo)
                     edges.push_back(edge);
             }
-        }
+        }*/
+        pontoInicial = pontosRecolha.at(i);
     }
 
-    return edges;
+    return vertInfosRes;
 }
 
 

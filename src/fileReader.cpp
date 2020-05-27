@@ -35,6 +35,7 @@ FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
     string low = cidade;
     transform(low.begin(), low.end(), low.begin(), ::tolower);
 
+    //variavel cidade tem letra maiuscula e low é tudo em minusculas.
 
     cout << "Reading Nodes..." << endl;
     if(!readNodes_simples(graph, "maps/strong"+cidade+"/"+low+"_strong_nodes_xy.txt")){

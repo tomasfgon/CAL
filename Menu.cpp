@@ -187,6 +187,15 @@ void Menu::menuUE() {
             }
 
 
+
+
+            Graph<VerticeInfo> graph;
+            for(int i=0;i<caminhos.size();i++){
+                graph.addVertex(&caminhos[i]);
+            }
+
+            PrintGraph printGraph;
+            printGraph.useCase4(graph);
         }
 
 
@@ -315,7 +324,7 @@ void Menu::menuUP() {int option=-1;
                     }
                 }
                 TipoLixo t = TipoLixo(tipo);
-                printGraph.useCase3(graph1, pontoAtual, t);
+                printGraph.useCase6(graph1, pontoAtual, t);
             }
 
 
@@ -337,7 +346,7 @@ void Menu::menuUM() {
     cout << endl << endl;
     cout << "\t\tUtilizador Municipal\n\n" << endl;
 
-    cout << "1 - Determine Truck Rout For Waste Collection" << endl;
+    cout << "1 - Determine Truck Route For Waste Collection" << endl;
     cout << "2 - Exit\n\n" << endl;
     cout << endl;
     cout << "Choose option: ";
@@ -400,11 +409,13 @@ void Menu::menuUM() {
                 }
 
                 Graph<VerticeInfo> graph2;
+                /*
                 for(VerticeInfo verticeInfo: caminhos[0]){
                     graph2.addVertex(&verticeInfo);
                 }
                 PrintGraph printGraph;
                 printGraph.create(graph2);
+                 */
         }
 
 

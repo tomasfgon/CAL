@@ -17,11 +17,12 @@ public:
     static string image;
 
 
-    GraphViewer* useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo);
+    GraphViewer* useCase6(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo);
 
     GraphViewer* create(Graph<VerticeInfo> &g);
 
 
+    GraphViewer *useCase4(Graph<VerticeInfo> &g);
 };
 
 #endif //PROJETO_PRINTGRAPH_H

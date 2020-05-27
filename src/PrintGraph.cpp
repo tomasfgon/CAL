@@ -25,8 +25,9 @@ GraphViewer* PrintGraph::create(Graph<VerticeInfo> &g) {
 
 
     auto *gv = new GraphViewer(graphWidth, graphHeight, false);
-    gv->defineEdgeCurved(false);
     gv->setBackground(image);
+    gv->defineEdgeCurved(false);
+
     gv->createWindow(graphWidth, graphHeight);
 
     gv->defineEdgeColor("black");
@@ -91,7 +92,9 @@ GraphViewer* PrintGraph::create(Graph<VerticeInfo> &g) {
 }
 
 
-GraphViewer* PrintGraph::useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo){
+GraphViewer* PrintGraph::useCase6(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo){
+
+
     double height = getMaxY(g) - getMinY(g);
     double width = getMaxX(g) - getMinX(g);
 
@@ -106,9 +109,10 @@ GraphViewer* PrintGraph::useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual,
     }
 
 
+
     auto *gv = new GraphViewer(graphWidth, graphHeight, false);
-    gv->defineEdgeCurved(false);
     gv->setBackground(image);
+    gv->defineEdgeCurved(false);
     gv->createWindow(graphWidth, graphHeight);
 
     gv->defineEdgeColor("black");
@@ -184,4 +188,71 @@ GraphViewer* PrintGraph::useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual,
 
     gv->rearrange();
     return gv;
+}
+
+GraphViewer* PrintGraph::useCase4(Graph<VerticeInfo> &g) {
+
+    double height = getMaxY(g) - getMinY(g);
+    double width = getMaxX(g) - getMinX(g);
+
+    int graphHeight, graphWidth;
+    if(width/height < 2) {
+        graphHeight = 600;
+        graphWidth = (width * graphHeight) / height;
+    }
+    else {
+        graphWidth = 1500;
+        graphHeight = (height * graphWidth) / width;
+    }
+
+
+
+    auto *gv = new GraphViewer(graphWidth, graphHeight, false);
+    gv->setBackground(image);
+    gv->defineEdgeCurved(false);
+
+    gv->createWindow(graphWidth, graphHeight);
+
+    gv->defineEdgeColor("black");
+
+    int counter = 0;
+    for(auto vertex: g.getVertexSet()) {
+
+        if(instanceof<PontoRecolhaDomiciliario>(vertex->getInfo())) {
+            gv->setVertexColor(vertex->getInfo()->getId(), YELLOW);
+            gv->setVertexSize(vertex->getInfo()->getId(), 5);
+            //cout << "azul" << endl;
+        }
+        else{
+            gv->setVertexColor(vertex->getInfo()->getId(), BLUE);
+            gv->setVertexSize(vertex->getInfo()->getId(), 5);
+        }
+
+        double y = (vertex->getInfo()->getCoordenadas().getY() - getMinY(g)) / height;
+        double x = (vertex->getInfo()->getCoordenadas().getX() - getMinX(g)) / width;
+        gv->addNode(vertex->getInfo()->getId(), (int) (x * graphWidth), (int) (y * graphHeight));
+
+
+
+
+
+    }
+
+    for(auto vertex: g.getVertexSet()){
+        if(!vertex->isVisited()){
+            for(auto j: vertex->getAdj()){
+                if(!vertex->isVisited()){
+                    gv->addEdge(counter++, vertex->getInfo()->getId(), j.getDest()->getInfo()->getId(), EdgeType::UNDIRECTED);
+                    vertex->setVisited(true);
+                }
+            }
+        }
+
+    }
+
+
+
+    gv->rearrange();
+    return gv;
+
 }

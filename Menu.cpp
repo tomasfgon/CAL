@@ -19,6 +19,8 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
 =======*/
 
     string cidade = mapa();
+    string low = cidade;
+    transform(low.begin(), low.end(), low.begin(), ::tolower);
     FileReader fileReader(graph, cidade);
     setGraph(graph);
     while(login != -1)
@@ -96,8 +98,6 @@ string Menu::mapa(){
 
 void Menu::loginMenu(){
     int login;
-
-
 
     cout << "\t\t Login\n\n" << endl;
     cout << "1 - Utilizador Municipal - UM" << endl;
@@ -246,6 +246,10 @@ void Menu::menuUP() {int option=-1;
             cin >> idLocal;
             Coordenadas coordenadas(0,0);
             VerticeInfo pontoAtual(coordenadas, idLocal);
+            Graph<VerticeInfo> graph1;
+            PrintGraph printGraph;
+            graph1.addVertex(&pontoAtual);
+
 
             cout << "Indique o numero de tipos de lixo que contem:" << endl;
             int numTipo;
@@ -265,18 +269,24 @@ void Menu::menuUP() {int option=-1;
                 vector<VerticeInfo> listToReturn;
                 useCases.obterPontosRecolhaMaisProximo(pontosRecolha, pontoAtual, TipoLixo(tipo), graph, listToReturn);
                 cout << "Pontos de recolha na vizinhanca para este tipo de lixo: \n" << endl;
-                Graph<VerticeInfo> graph1;
-                for(VerticeInfo verticeInfo: listToReturn){
-                    cout << "\nPonto Recolha ID: " << verticeInfo.getId() << endl;
-                    cout << "Coordenada: " << verticeInfo.getCoordenadas().getX() << ", "
-                         << verticeInfo.getCoordenadas().getY() << endl;
 
 
-                    graph1.addVertex(&verticeInfo);
+                for(int k=0;k<listToReturn.size();k++){
+                    cout << "\nPonto Recolha ID: " << listToReturn[i].getId() << endl;
+                    cout << "Coordenada: " << listToReturn[i].getCoordenadas().getX() << ", "
+                         << listToReturn[i].getCoordenadas().getY() << endl;
 
+                    if(i==0){
+
+
+                        graph1.addVertex(&listToReturn[i]);
+
+
+
+                    }
                 }
-               PrintGraph printGraph;
-                printGraph.create(graph);
+                TipoLixo t = TipoLixo(tipo);
+                printGraph.useCase3(graph1, pontoAtual, t);
             }
 
 
@@ -342,7 +352,9 @@ void Menu::menuUM() {
 
                 cout << "Conexos" << endl;
 
+
                 vector<vector<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
+
 
                 if(caminhos.empty()){
                     cout << "\nNao e necessario recolher lixos, esta tudo abaixo da taxa viavel de recolha" << endl;
@@ -359,9 +371,12 @@ void Menu::menuUM() {
                     cout << "\nOperacao realizada com sucesso" << endl;
                 }
 
-
-
-
+                Graph<VerticeInfo> graph2;
+                for(VerticeInfo verticeInfo: caminhos[0]){
+                    graph2.addVertex(&verticeInfo);
+                }
+                PrintGraph printGraph;
+                printGraph.create(graph2);
         }
 
 

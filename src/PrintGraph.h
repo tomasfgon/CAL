@@ -13,6 +13,11 @@
 class PrintGraph {
 
 public:
+
+
+
+    GraphViewer* useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo);
+
     GraphViewer* create(Graph<VerticeInfo> &g);
 
 

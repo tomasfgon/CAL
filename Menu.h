@@ -12,12 +12,14 @@ using namespace std;
 
 class Menu {
 private:
+
     int login;
     Graph<VerticeInfo> graph;
 
 
 public:
     Menu(Graph<VerticeInfo> graph);
+
 
     int getLogin() const;
 

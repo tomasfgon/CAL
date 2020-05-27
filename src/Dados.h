@@ -19,6 +19,7 @@ using namespace std;
 class VerticeInfo {
 public:
 
+
     VerticeInfo(Coordenadas &coordenadas, int id) : coordenadas(coordenadas), id(id) {
     }
 

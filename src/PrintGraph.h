@@ -14,6 +14,7 @@ class PrintGraph {
 
 public:
 
+    static string image;
 
 
     GraphViewer* useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual, TipoLixo tipoLixo);

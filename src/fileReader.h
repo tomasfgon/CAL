@@ -15,7 +15,6 @@ public:
 
     FileReader(Graph<VerticeInfo> &graph, string cidade);
 
-
     //template<class T>
     bool readNodes_simples(Graph<VerticeInfo> &graph, string nome);
 

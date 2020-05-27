@@ -22,6 +22,9 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
     string low = cidade;
     transform(low.begin(), low.end(), low.begin(), ::tolower);
     FileReader fileReader(graph, cidade);
+
+
+    PrintGraph::image = "maps/strong"+cidade+"/"+low+"_strong_component.png";
     setGraph(graph);
     while(login != -1)
         menuController();

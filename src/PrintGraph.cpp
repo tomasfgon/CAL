@@ -5,6 +5,8 @@
 #include "PrintGraph.h"
 
 
+string PrintGraph::image;
+
 
 GraphViewer* PrintGraph::create(Graph<VerticeInfo> &g) {
 
@@ -24,8 +26,9 @@ GraphViewer* PrintGraph::create(Graph<VerticeInfo> &g) {
 
     auto *gv = new GraphViewer(graphWidth, graphHeight, false);
     gv->defineEdgeCurved(false);
+    gv->setBackground(image);
     gv->createWindow(graphWidth, graphHeight);
-    //gv->setBackground(FileReader::nomeCidade);
+
     gv->defineEdgeColor("black");
 
 
@@ -105,8 +108,9 @@ GraphViewer* PrintGraph::useCase3(Graph<VerticeInfo> &g, VerticeInfo pontoAtual,
 
     auto *gv = new GraphViewer(graphWidth, graphHeight, false);
     gv->defineEdgeCurved(false);
+    gv->setBackground(image);
     gv->createWindow(graphWidth, graphHeight);
-    //gv->setBackground(FileReader::nomeCidade);
+
     gv->defineEdgeColor("black");
 
     int counter=0;

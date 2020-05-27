@@ -42,6 +42,10 @@ FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
         cout << "could not read Nodes file" << endl;
         return;
     };
+
+    cout << "Generating Tags..." << endl;
+    randomizeTags(graph);
+
     cout << "Reading Edges..." << endl;
     if(!readEdges_simples(graph, "maps/strong"+cidade+"/"+low+"_strong_edges.txt")){
         cout << "could not read Edges file" << endl;
@@ -53,8 +57,7 @@ FileReader::FileReader(Graph<VerticeInfo> &graph, string cidade){
         return;
     };*/
 
-    cout << "Generating Tags..." << endl;
-    randomizeTags(graph);
+
 
 
 }

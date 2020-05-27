@@ -23,7 +23,7 @@ public:
 
     void setLogin(int login);
 
-    const Graph<VerticeInfo> &getGraph() const;
+    const Graph<VerticeInfo> &getGraph();
 
     void setGraph(const Graph<VerticeInfo> &graph);
 

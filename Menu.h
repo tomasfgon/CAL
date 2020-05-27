@@ -15,6 +15,7 @@ private:
     int login;
     Graph<VerticeInfo> graph;
 
+
 public:
     Menu(Graph<VerticeInfo> graph);
 
@@ -23,6 +24,8 @@ public:
     void setLogin(int login);
 
     const Graph<VerticeInfo> &getGraph() const;
+
+    void setGraph(const Graph<VerticeInfo> &graph);
 
     string mapa();
 

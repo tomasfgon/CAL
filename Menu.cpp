@@ -20,7 +20,7 @@ Menu::Menu(Graph<VerticeInfo> graph) : graph(graph) {
 
     string cidade = mapa();
     FileReader fileReader(graph, cidade);
-
+    setGraph(graph);
     while(login != -1)
         menuController();
 }
@@ -379,7 +379,7 @@ const Graph<VerticeInfo> &Menu::getGraph() const {
 
 void Menu::menuAdmin() {
 
-    int option = -1;
+int option = -1;
 
     cout << endl << endl;
     cout << "\n\t\tAdmin\n\n" << endl;
@@ -481,6 +481,10 @@ void Menu::menuAdmin() {
         return;
     }
     menuAdmin();
+}
+
+void Menu::setGraph(const Graph<VerticeInfo> &graph) {
+    Menu::graph = graph;
 }
 
 

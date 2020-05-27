@@ -373,7 +373,7 @@ void Menu::menuUM() {
 
 }
 
-const Graph<VerticeInfo> &Menu::getGraph() const {
+const Graph<VerticeInfo> &Menu::getGraph() {
     return graph;
 }
 
@@ -387,7 +387,8 @@ int option = -1;
     cout << "1 - Add Collection Point" << endl;
     cout << "2 - Imprimir todos os lixos de rua" << endl;
     cout << "3 - Imprimir todos os lixos domiciliarios" << endl;
-    cout << "4 - Back\n\n" << endl;
+    cout << "4 - Imprimir grafo da cidade" << endl;
+    cout << "5 - Back\n\n" << endl;
     cout << endl;
     cout << "Choose option: ";
 
@@ -397,12 +398,13 @@ int option = -1;
     if (!verifyOption()) {
         menuAdmin();
     }
-    if (option < 1 || option > 4) {
+    if (option < 1 || option > 5) {
         menuAdmin();
     }
 
-    if (option != 4) {
+    if (option != 5) {
         UseCases useCases;
+
         if (option == 1) {
 
             //Ler ponto de recolha
@@ -461,7 +463,7 @@ int option = -1;
 
             }
 
-        } else if (option == 3){
+        } else if (option == 3) {
             //print pontos de recolha domiciliarios
             vector<PontoRecolhaDomiciliario> pontosRecolha = useCases.getAllPontosRecolhaDomestica(graph);
 
@@ -475,9 +477,15 @@ int option = -1;
                     cout << "Capacidade Max: " << capMax << endl;
 
             }
-        }
 
-    } else {
+        }
+        else if(option == 4){
+            PrintGraph printGraph;
+            printGraph.create(graph);
+        }
+    }
+
+    else {
         return;
     }
     menuAdmin();

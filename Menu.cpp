@@ -158,6 +158,32 @@ void Menu::menuUE() {
         UseCases useCases;
         if(option == 1){
 
+            //escolher ponto de partida e de chegada
+            cout << "Indique o id do seu ponto de partida" << endl;
+            int idPartida;
+            cin >> idPartida;
+            cout << "Indique o id da Central de Recolha na qual depositar o lixo" << endl;
+            int idCentral;
+            cin >> idCentral;
+
+            Coordenadas coordenadasStub(0,0);
+            PontoPartida *pontoPartida = new PontoPartida(coordenadasStub,idPartida);
+
+            CentroReciclagem *centroReciclagem = new CentroReciclagem(coordenadasStub,idCentral);
+
+            cout << "Indique a sua capacidade maxima de Recolha" << endl;
+            double capRecolha;
+            cin >> capRecolha;
+
+            vector<VerticeInfo> caminhos = useCases.determinarRotaUE(*pontoPartida,*centroReciclagem,capRecolha,graph);
+
+            for(VerticeInfo caminho: caminhos){
+                cout << "\nPonto Recolha ID: " << caminho.getId() << endl;
+                cout << "Coordenada: " << caminho.getCoordenadas().getX() << ", "
+                     << caminho.getCoordenadas().getY() << endl;
+            }
+
+
         }
 
 
@@ -350,7 +376,6 @@ void Menu::menuUM() {
                 menuUM();
             } else {*/
 
-                cout << "Conexos" << endl;
 
 
                 vector<vector<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);

@@ -16,6 +16,8 @@ public:
 
     bool addPontoRecolha(PontoRecolha &pontoRecolha, Graph<VerticeInfo> &graph); //UC2
 
+    vector<VerticeInfo> determinarRotaUE(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, double capMax ,Graph<VerticeInfo> graph); //UC4
+
     bool addRecolhaDomestica(PontoRecolhaDomiciliario &pontoRecolhaDomiciliario, Graph<VerticeInfo> graph); //UC5
 
     vector<vector<VerticeInfo>> determinarRotaCamioes(PontoPartida pontoPartida, CentroReciclagem centroReciclagem, Graph<VerticeInfo> graph); //UC3
@@ -30,9 +32,15 @@ public:
 
     void obterPontosRecolhaMaisProximo(vector<PontoRecolha> pontosRecolha, VerticeInfo oldPonto, int tipoLixoAtual, Graph<VerticeInfo> graph, vector<VerticeInfo> &listToReturn);
 
+    void obterPontosRecolhaDomesticosMaisProximo(vector<PontoRecolhaDomiciliario> pontosRecolha, VerticeInfo oldPonto, Graph<VerticeInfo> graph , vector<PontoRecolhaDomiciliario> &listToReturn);
+
 private:
 
+    vector<VerticeInfo> determinarPontosDependendoDaCapMax(vector<PontoRecolhaDomiciliario> pontosRecolha, double capMax);
+
     vector<PontoRecolha> getPontosAcimaTaxaViavel(Graph<VerticeInfo> graph);
+
+    vector<PontoRecolhaDomiciliario> getPontosDomesticosAcimaTaxaViavel(Graph<VerticeInfo> graph);
 
     vector<pair<double,TipoLixo>> calcularLixoTotalPorTipo(vector<PontoRecolha> pontosRecolha);
 

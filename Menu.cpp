@@ -158,6 +158,32 @@ void Menu::menuUE() {
         UseCases useCases;
         if(option == 1){
 
+            //escolher ponto de partida e de chegada
+            cout << "Indique o id do seu ponto de partida" << endl;
+            int idPartida;
+            cin >> idPartida;
+            cout << "Indique o id da Central de Recolha na qual depositar o lixo" << endl;
+            int idCentral;
+            cin >> idCentral;
+
+            Coordenadas coordenadasStub(0,0);
+            PontoPartida *pontoPartida = new PontoPartida(coordenadasStub,idPartida);
+
+            CentroReciclagem *centroReciclagem = new CentroReciclagem(coordenadasStub,idCentral);
+
+            cout << "Indique a sua capacidade maxima de Recolha" << endl;
+            double capRecolha;
+            cin >> capRecolha;
+
+            vector<VerticeInfo> caminhos = useCases.determinarRotaUE(*pontoPartida,*centroReciclagem,capRecolha,graph);
+
+            for(VerticeInfo caminho: caminhos){
+                cout << "\nPonto Recolha ID: " << caminho.getId() << endl;
+                cout << "Coordenada: " << caminho.getCoordenadas().getX() << ", "
+                     << caminho.getCoordenadas().getY() << endl;
+            }
+
+
         }
 
 
@@ -266,13 +292,13 @@ void Menu::menuUP() {int option=-1;
                 useCases.obterPontosRecolhaMaisProximo(pontosRecolha, pontoAtual, TipoLixo(tipo), graph, listToReturn);
                 cout << "Pontos de recolha na vizinhanca para este tipo de lixo: \n" << endl;
                 Graph<VerticeInfo> graph1;
-                for(VerticeInfo verticeInfo: listToReturn){
-                    cout << "\nPonto Recolha ID: " << verticeInfo.getId() << endl;
-                    cout << "Coordenada: " << verticeInfo.getCoordenadas().getX() << ", "
-                         << verticeInfo.getCoordenadas().getY() << endl;
+                for(VerticeInfo verticeInfo1: listToReturn){
+                    cout << "\nPonto Recolha ID: " << verticeInfo1.getId() << endl;
+                    cout << "Coordenada: " << verticeInfo1.getCoordenadas().getX() << ", "
+                         << verticeInfo1.getCoordenadas().getY() << endl;
 
 
-                    graph1.addVertex(&verticeInfo);
+                    graph1.addVertex(&verticeInfo1);
 
                 }
                PrintGraph printGraph;
@@ -340,7 +366,6 @@ void Menu::menuUM() {
                 menuUM();
             } else {*/
 
-                cout << "Conexos" << endl;
 
                 vector<vector<VerticeInfo>> caminhos = useCases.determinarRotaCamioes(*pontoPartida,*centroReciclagem,graph);
 

@@ -274,7 +274,7 @@ void Menu::menuUP() {int option=-1;
                     graph1.addVertex(&verticeInfo);
 
                 }
-                PrintGraph printGraph;
+               PrintGraph printGraph;
                 printGraph.create(graph);
             }
 
@@ -333,10 +333,11 @@ void Menu::menuUM() {
             Vertex<VerticeInfo>* vFinal = graph.findVertex(centroReciclagem);
 
 
-            if(!useCases.checkConectividade2Points(graph,*vInicial,*vFinal)){
+/*            if(!useCases.checkConectividade2Points(graph,*vInicial,*vFinal)){
+           //if(false){
                 cout << "Nao conexos" << endl;
                 menuUM();
-            } else {
+            } else {*/
 
                 cout << "Conexos" << endl;
 
@@ -356,7 +357,7 @@ void Menu::menuUM() {
                     }
                     cout << "\nOperacao realizada com sucesso" << endl;
                 }
-            }
+
 
 
 

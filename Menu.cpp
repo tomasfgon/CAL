@@ -387,7 +387,7 @@ int option = -1;
     cout << "1 - Add Collection Point" << endl;
     cout << "2 - Imprimir todos os lixos de rua" << endl;
     cout << "3 - Imprimir todos os lixos domiciliarios" << endl;
-    cout << "4 - Exit\n\n" << endl;
+    cout << "4 - Back\n\n" << endl;
     cout << endl;
     cout << "Choose option: ";
 
